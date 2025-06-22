@@ -200,7 +200,7 @@ class TelaFornecedor(TesteNumeroOpcoes):
                 [sg.Text('CEP:', font=("Georgia", 15), size=(15, 1)), sg.InputText('', key='cep')],
                 [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
             ]
-            self.__window = sg.Window('Seleciona endereco').Layout(layout)    
+            self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
 
             button, values = self.open()
             if button in (None, 'Cancelar'):

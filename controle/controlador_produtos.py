@@ -76,7 +76,7 @@ class ControladorProdutos():
                 valor = self.__tela_produto.pega_dados_produto_alterar()
                 if valor == 0 or valor is None:
                     return
-                if isinstance(valor, float) and valor.is_integer():
+                if isinstance(valor, float):
                     produto.quant_estoque += int(valor)
                     self.__tela_produto.mostra_mensagem("Estoque alterado com sucesso!")
                 else:
