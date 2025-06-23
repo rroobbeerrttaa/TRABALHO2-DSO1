@@ -68,8 +68,8 @@ class ControladorFornecedores:
         try:
             if fornecedor is not None:
                 novos_dados_fornecedor = self.__tela_fornecedor.pega_dados_fornecedor()   
-                if novos_dados_fornecedor == 0:
-                    return 
+                if novos_dados_fornecedor == None:
+                    return None
                 else:            
                     fornecedor_copiado = self.pega_fornecedor_por_cnpj(novos_dados_fornecedor["cnpj"])       
                     novo_codigo_produto = int(novos_dados_fornecedor["produto"])
@@ -103,8 +103,8 @@ class ControladorFornecedores:
             if fornecedor is None:
                 raise NaoEncontradoNaListaException("fornecedor")
             dados_endereco = self.__tela_fornecedor.pega_dados_endereco()
-            if dados_endereco == 0 or dados_endereco == None:
-                return
+            if dados_endereco == None:
+                return None
             else:
                 cep_novo = dados_endereco["cep"]
                 cep_existente = False
@@ -153,7 +153,7 @@ class ControladorFornecedores:
     def excluir_fornecedor(self):
         self.lista_fornecedores()
         if self.__fornecedores == []:
-            return 
+            return None 
         cnpj_fornecedor = self.__tela_fornecedor.seleciona_fornecedor()
         if cnpj_fornecedor == None:
                 return None

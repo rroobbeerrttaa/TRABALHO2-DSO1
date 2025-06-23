@@ -146,4 +146,4 @@ class ControladorPedidos():
             if opcao_escolhida in lista_opcoes:
                 lista_opcoes[opcao_escolhida]()
             else:
-                self.__tela_produto.mostra_mensagem("Opção inválida, escolha novamente\nA possivél causa é a a confirmação sem ter selecionado nada.")
+                self.__tela_pedido.mostra_mensagem("Opção inválida, escolha novamente\nA possivél causa é a a confirmação sem ter selecionado nada.")
