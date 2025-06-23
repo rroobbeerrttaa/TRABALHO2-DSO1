@@ -92,10 +92,10 @@ class TelaPedido(TesteNumeroOpcoes):
                 ]            
             self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
 
-            button, values = self.__window.read()
+            button, values = self.open()
             if button in (None, 'Cancelar'):
                 self.close()  
-                return 0
+                return None
 
             cnpj = self.teste_do_cnpj(values['cnpj'])
             codigo = self.teste_do_inteiro(values['codigo'], "o codigo")
@@ -138,10 +138,10 @@ class TelaPedido(TesteNumeroOpcoes):
                 ]            
             self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
 
-            button, values = self.__window.read()
+            button, values = self.open()
             if button in (None, 'Cancelar'):
                 self.close()  
-                return 0
+                return None
 
             cnpj = self.teste_do_cnpj(values['cnpj'])
             codigo_produto = self.teste_do_inteiro(values['codigo_produto'], "o codigo do produto")
@@ -195,7 +195,7 @@ class TelaPedido(TesteNumeroOpcoes):
             button, values = self.open()
             if button in (None, 'Cancelar'):
                 self.close()  
-                return 0
+                return None
 
             codigo = self.teste_do_inteiro(values['codigo'], "o codigo")
             if codigo != None:
@@ -207,8 +207,8 @@ class TelaPedido(TesteNumeroOpcoes):
         sg.popup("", msg)
 
     def close(self):
-        if self.__window:
-            self.__window.close()
+        self.__window.Close()
 
     def open(self):
-        return self.__window.read()
+        button, values = self.__window.Read()
+        return button, values

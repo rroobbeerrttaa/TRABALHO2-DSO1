@@ -73,7 +73,7 @@ class TelaProduto(TesteNumeroOpcoes):
             button, values = self.open()
             if button in (None, 'Cancelar'):
                 self.close()  
-                return 0
+                return None
             
             nome = values['nome']
             codigo_produto = self.teste_do_inteiro(values['codigo_produto'], 'o codigo do produto')
@@ -105,7 +105,7 @@ class TelaProduto(TesteNumeroOpcoes):
             button, values = self.open()
             if button in (None, 'Cancelar'):
                 self.close()
-                return 0
+                return None
 
             valor = self.teste_do_float(values['valor'], 'o valor')
             if valor is not None:
@@ -139,7 +139,7 @@ class TelaProduto(TesteNumeroOpcoes):
             button, values = self.open()
             if button in (None, 'Cancelar'):
                 self.close()  
-                return 0
+                return None
 
             codigo = self.teste_do_inteiro(values['codigo'], 'o codigo')
             if codigo != None:

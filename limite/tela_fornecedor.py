@@ -99,7 +99,7 @@ class TelaFornecedor(TesteNumeroOpcoes):
             button, values = self.open()
             if button in (None, 'Cancelar'):
                 self.close()  
-                return 0
+                return None
 
             nome = values['nome']
             cnpj = self.teste_do_cnpj(values['cnpj'])
@@ -152,7 +152,7 @@ class TelaFornecedor(TesteNumeroOpcoes):
                 button, values = self.open()
                 if button in (None, 'Cancelar'):
                     self.close()  
-                    return 0
+                    return None
 
                 cep = self.teste_do_cep(values['cep'])
                 rua = str(values['rua'])
@@ -183,7 +183,7 @@ class TelaFornecedor(TesteNumeroOpcoes):
             button, values = self.open()
             if button in (None, 'Cancelar'):
                 self.close()  
-                return 0
+                return None
 
             cnpj = self.teste_do_cnpj(values['cnpj'])
             if cnpj != None:
@@ -205,7 +205,7 @@ class TelaFornecedor(TesteNumeroOpcoes):
             button, values = self.open()
             if button in (None, 'Cancelar'):
                 self.close()  
-                return 0
+                return None
 
             cep = self.teste_do_cep(values['cep'])
             if cep != None:
@@ -218,7 +218,7 @@ class TelaFornecedor(TesteNumeroOpcoes):
         print(msg)
 
     def close(self):
-        self.__window.close()
+        self.__window.Close()
 
     def open(self):
         button, values = self.__window.Read()

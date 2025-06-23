@@ -27,8 +27,8 @@ class ControladorProdutos():
 
     def incluir_produto(self):
         dados_produto = self.__tela_produto.pega_dados_produto()
-        if dados_produto == 0:
-            return
+        if dados_produto == None:
+            return None
         i = self.pega_produto_por_codigo(dados_produto["codigo_produto"])
         try:
             if i is None:
@@ -46,10 +46,10 @@ class ControladorProdutos():
     def alterar_preco_produto(self):
         self.lista_produtos()
         if len(self.__produtos) == 0:
-            return
+            return None
         codigo_produto = self.__tela_produto.seleciona_produto()
-        if codigo_produto == 0:
-            return  
+        if codigo_produto == 'não':
+            return None
         produto = self.pega_produto_por_codigo(codigo_produto)
         try:
             if produto is not None:
@@ -68,8 +68,8 @@ class ControladorProdutos():
         if len(self.__produtos) == 0:
             return
         codigo_produto = self.__tela_produto.seleciona_produto()
-        if codigo_produto == 0 or codigo_produto is None:
-            return 
+        if codigo_produto == 'não':
+            return None
         produto = self.pega_produto_por_codigo(codigo_produto)
         try:
             if produto is not None:
