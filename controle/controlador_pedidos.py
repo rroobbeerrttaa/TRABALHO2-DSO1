@@ -20,8 +20,8 @@ class ControladorPedidos():
         self.__controlador_sistema.controlador_produtos.lista_produtos()
 
         dados_pedido = self.__tela_pedido.pega_dados_pedido()
-        if dados_pedido == 0:
-            return  
+        if dados_pedido == None:
+            return None
         codigo_pedido = self.pega_pedido_por_codigo(dados_pedido["codigo"])
         try:
             if codigo_pedido is None:
@@ -54,18 +54,18 @@ class ControladorPedidos():
     def alterar_pedido(self):
         self.lista_pedidos()
         if len(self.__pedidos) == 0:
-            return 
+            return None
         codigo_pedido = self.__tela_pedido.seleciona_pedido()
-        if codigo_pedido == 0:
-            return
+        if codigo_pedido == None:
+            return None
         pedido = self.pega_pedido_por_codigo(codigo_pedido)
         try:
             if pedido is not None:
                 self.__controlador_sistema.controlador_fornecedores.lista_fornecedores()
                 self.__controlador_sistema.controlador_produtos.lista_produtos()
                 novos_dados = self.__tela_pedido.altera_dados_pedidos()
-                if novos_dados == 0:
-                    return 
+                if novos_dados == None:
+                    return None
                 else:
                     novo_fornecedor = self.__controlador_sistema.controlador_fornecedores.pega_fornecedor_por_cnpj(novos_dados["cnpj"])
                     if novo_fornecedor is not None:
@@ -82,9 +82,8 @@ class ControladorPedidos():
                             pedido.fornecedor = novo_fornecedor
                             pedido.frete = float(novos_dados["valor_frete"])
                             pedido.prazo_entrega = int(novos_dados["prazo_entrega"])
-                            
                             novo_produto.quant_estoque += int(novos_dados["quantidade"])
-                            
+
                             self.__tela_pedido.mostra_mensagem("Pedido alterado com sucesso!")
                         else:
                             raise NaoEncontradoNaListaException("produto")
@@ -116,8 +115,8 @@ class ControladorPedidos():
         if len(self.__pedidos) != 0:
             self.lista_pedidos()
             codigo_pedido = self.__tela_pedido.seleciona_pedido()
-            if codigo_pedido == 0:
-                return 
+            if codigo_pedido == None:
+                return None
             pedido = self.pega_pedido_por_codigo(codigo_pedido)
             try:
                 if pedido is not None:
@@ -131,7 +130,6 @@ class ControladorPedidos():
                 self.__tela_pedido.mostra_mensagem(e)
         else:
             self.__tela_pedido.mostra_mensagem("Não exite pedidos para remover!")
-            return 
 
     def retornar(self):
         self.__controlador_sistema.abre_tela()
@@ -143,8 +141,9 @@ class ControladorPedidos():
                         4: self.alterar_pedido,
                         0: self.retornar}
 
-        continua = True
-        while continua:
-            opcao = self.__tela_pedido.tela_opcoes()
-            if opcao in lista_opcoes:
-                lista_opcoes[opcao]()
+        while True:
+            opcao_escolhida = self.__tela_pedidos.tela_opcoes()
+            if opcao_escolhida in lista_opcoes:
+                lista_opcoes[opcao_escolhida]()
+            else:
+                self.__tela_produto.mostra_mensagem("Opção inválida, escolha novamente\nA possivél causa é a a confirmação sem ter selecionado nada.")

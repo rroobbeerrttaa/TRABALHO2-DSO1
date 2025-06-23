@@ -215,7 +215,6 @@ class TelaFornecedor(TesteNumeroOpcoes):
 
     def mostra_mensagem(self, msg):
         sg.popup("", msg)
-        print(msg)
 
     def close(self):
         self.__window.Close()

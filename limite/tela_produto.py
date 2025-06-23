@@ -151,7 +151,7 @@ class TelaProduto(TesteNumeroOpcoes):
         sg.popup("", msg)
 
     def close(self):
-        self.__window.close()
+        self.__window.Close()
 
     def open(self):
         button, values = self.__window.Read()

@@ -48,13 +48,13 @@ class ControladorProdutos():
         if len(self.__produtos) == 0:
             return None
         codigo_produto = self.__tela_produto.seleciona_produto()
-        if codigo_produto == 'não':
+        if codigo_produto == None:
             return None
         produto = self.pega_produto_por_codigo(codigo_produto)
         try:
             if produto is not None:
                 valor = self.__tela_produto.pega_dados_produto_alterar()
-                if valor == 0 or valor is None:
+                if valor == None:
                     return 
                 produto.preco_venda = float(valor)
                 self.__tela_produto.mostra_mensagem("Preço alterado com sucesso!")
@@ -66,15 +66,15 @@ class ControladorProdutos():
     def alterar_estoque(self):
         self.lista_produtos()
         if len(self.__produtos) == 0:
-            return
+            return None
         codigo_produto = self.__tela_produto.seleciona_produto()
-        if codigo_produto == 'não':
+        if codigo_produto == None:
             return None
         produto = self.pega_produto_por_codigo(codigo_produto)
         try:
             if produto is not None:
                 valor = self.__tela_produto.pega_dados_produto_alterar()
-                if valor == 0 or valor is None:
+                if valor == None:
                     return
                 if isinstance(valor, float):
                     produto.quant_estoque += int(valor)
@@ -104,10 +104,10 @@ class ControladorProdutos():
     def excluir_produto(self):
         self.lista_produtos()
         if len(self.__produtos) == 0:
-            return
+            return None
         codigo_produto = int(self.__tela_produto.seleciona_produto())
-        if codigo_produto == 0:
-            return 
+        if codigo_produto == None:
+            return None
         produto = self.pega_produto_por_codigo(codigo_produto)
         try:
             if produto is not None:

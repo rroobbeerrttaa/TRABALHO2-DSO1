@@ -34,10 +34,8 @@ class ControladorFornecedores:
     def incluir_fornecedor(self):
         self.__controlador_sistema.controlador_produtos.lista_produtos()
         dados_fornecedor = self.__tela_fornecedor.pega_dados_fornecedor()
-        
-        if dados_fornecedor == 0:
-            return  
-        
+        if dados_fornecedor == None:
+            return  None
         try:
             codigo_produto = int(dados_fornecedor["produto"])  
             objeto_produto = self.__controlador_sistema.controlador_produtos.pega_produto_por_codigo(codigo_produto)
@@ -62,12 +60,10 @@ class ControladorFornecedores:
     def alterar_fornecedor(self):
         self.lista_fornecedores()
         if self.__fornecedores == []:
-            return
+            return None
         cnpj_fornecedor = self.__tela_fornecedor.seleciona_fornecedor()
-        
-        if cnpj_fornecedor == 0:
-            return  
-        
+        if cnpj_fornecedor == None:
+            return None
         fornecedor = self.pega_fornecedor_por_cnpj(cnpj_fornecedor)       
         try:
             if fornecedor is not None:
@@ -98,10 +94,10 @@ class ControladorFornecedores:
     def adicionar_endereco(self):
         self.lista_fornecedores()
         if self.__fornecedores == []:
-            return
+            return None
         cnpj_fornecedor = self.__tela_fornecedor.seleciona_fornecedor()
-        if cnpj_fornecedor == 0:
-            return  
+        if cnpj_fornecedor == None:
+            return None
         fornecedor = self.pega_fornecedor_por_cnpj(cnpj_fornecedor)
         try:
             if fornecedor is None:
@@ -159,8 +155,8 @@ class ControladorFornecedores:
         if self.__fornecedores == []:
             return 
         cnpj_fornecedor = self.__tela_fornecedor.seleciona_fornecedor()
-        if cnpj_fornecedor == 0:
-                return
+        if cnpj_fornecedor == None:
+                return None
         fornecedor = self.pega_fornecedor_por_cnpj(cnpj_fornecedor)
         try:
             if fornecedor is not None:
@@ -174,17 +170,17 @@ class ControladorFornecedores:
     def excluir_endereco(self):
         self.lista_fornecedores()
         if self.__fornecedores == []:
-            return
+            return None
         cnpj_fornecedor = self.__tela_fornecedor.seleciona_fornecedor()
-        if cnpj_fornecedor == 0:
-            return
+        if cnpj_fornecedor == None:
+            return None
         fornecedor = self.pega_fornecedor_por_cnpj(cnpj_fornecedor)
         try:
             if fornecedor is None:
                 raise NaoEncontradoNaListaException("fornecedor") 
             cep_endereco = self.__tela_fornecedor.seleciona_endereco()
-            if cep_endereco == 0:
-                return
+            if cep_endereco == None:
+                return None
             endereco_remover = None
             for endereco in fornecedor.enderecos:
                 if str(endereco.cep).strip() == str(cep_endereco).strip():
