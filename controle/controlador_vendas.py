@@ -2,20 +2,21 @@ from limite.tela_venda import TelaVenda
 from entidade.venda import Venda
 from excessoes.nao_encontrado_na_lista_exception import NaoEncontradoNaListaException
 from excessoes.encontrado_na_lista_exception import EncontradoNaListaException
+from DAOs.venda_dao import VendaDAO
 
 class ControladorVendas():
 
   def __init__(self, controlador_sistema):
     self.__controlador_sistema = controlador_sistema
-    self.__vendas = []
+    self.__vendas_DAO = VendaDAO()
     self.__tela_venda = TelaVenda()
 
   @property
   def vendas(self):
-    return self.__vendas
+    return self.__vendas_DAO
 
   def pega_venda_por_codigo(self, codigo: int):
-    for venda in self.__vendas:
+    for venda in self.__vendas_DAO.get_all():
       if venda.codigo == int(codigo):
         return venda
     return None
@@ -48,10 +49,12 @@ class ControladorVendas():
                              data = dados_venda["data"], codigo = codigo_venda,
                              cliente = cliente, vendedor = vendedor)    # VALOR DA VENDA É CALCULADO NO CONSTRUTOR DA CLASSE
 
-          self.__vendas.append(nova_venda)
+          #self.__vendas.append(nova_venda)
+          self.__vendas_DAO.add(nova_venda)
           produto.quant_estoque -= quantidade
           vendedor.valor_vendido_total += nova_venda.valor
           cliente.adicionar_compra(nova_venda)
+          # Não sei se mantenho essa função porque o atributo compras em cliente é uma lista e não um dicionário
 
           self.__tela_venda.mostra_mensagem("Venda cadastrada com sucesso!")
           self.__tela_venda.mostra_venda({"codigo": nova_venda.codigo,
