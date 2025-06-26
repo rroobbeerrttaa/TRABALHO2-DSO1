@@ -1,7 +1,7 @@
-from teste.teste_numero_opcoes import TesteNumeroOpcoes
+from mostra.mostra_mensagem import MostraMensagem
 import PySimpleGUI as sg
 
-class TelaFornecedor(TesteNumeroOpcoes):
+class TelaFornecedor(MostraMensagem):
 
     def __init__(self):
         self.__window = None
@@ -113,6 +113,36 @@ class TelaFornecedor(TesteNumeroOpcoes):
                 (preco != None)):
                 self.close()
                 return {"nome": nome, "cnpj": cnpj, "celular": celular, "produto": produto, "preco": preco}
+            self.close()
+
+    def altera_fornecedor(self):
+        while True:
+            sg.ChangeLookAndFeel('DarkRed1')
+            layout = [
+                [sg.Text('-------- DADOS FORNECEDOR ----------', font=("Georgia", 25))],
+                [sg.Text('Nome/Razão Social: ', font=("Georgia", 15), size=(20, 1)), sg.InputText('', key='nome')],
+                [sg.Text('Celular: ', font=("Georgia", 15), size=(20, 1)), sg.InputText('', key='celular')],
+                [sg.Text('Código do produto: ', font=("Georgia", 15), size=(20, 1)), sg.InputText('', key='produto')],
+                [sg.Text('Preço do fornecedor: ', font=("Georgia", 15), size=(20, 1)), sg.InputText('', key='preco')],
+                [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+            ]            
+            self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
+
+            button, values = self.open()
+            if button in (None, 'Cancelar'):
+                self.close()  
+                return None
+
+            nome = values['nome']
+            celular = self.teste_do_inteiro(values['celular'], "o numero de celular")
+            produto = self.teste_do_inteiro(values['produto'], "o produto")
+            preco = self.teste_do_float(values['preco'], "o preco")
+
+            if ((celular != None) and
+                (produto != None) and
+                (preco != None)):
+                self.close()
+                return {"nome": nome, "celular": celular, "produto": produto, "preco": preco}
             self.close()
 
     def mostra_fornecedor(self, dados_fornecedor):

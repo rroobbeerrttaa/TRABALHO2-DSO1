@@ -1,8 +1,8 @@
 from datetime import datetime
-from teste.teste_numero_opcoes import TesteNumeroOpcoes
+from mostra.mostra_mensagem import MostraMensagem
 import PySimpleGUI as sg
 
-class TelaPedido(TesteNumeroOpcoes):
+class TelaPedido(MostraMensagem):
 
     def __init__(self):
         self.__window = None

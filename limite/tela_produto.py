@@ -1,7 +1,7 @@
-from teste.teste_numero_opcoes import TesteNumeroOpcoes
+from mostra.mostra_mensagem import MostraMensagem
 import PySimpleGUI as sg
 
-class TelaProduto(TesteNumeroOpcoes):
+class TelaProduto(MostraMensagem):
 
     def __init__(self):
         self.__window = None
@@ -146,9 +146,6 @@ class TelaProduto(TesteNumeroOpcoes):
                 self.close()
                 return codigo
             self.close()
-
-    def mostra_mensagem(self, msg):
-        sg.popup("", msg)
 
     def close(self):
         self.__window.Close()
