@@ -7,12 +7,12 @@ from DAOs.produto_dao import ProdutoDAO
 
 class ControladorProdutos():
     def __init__(self, controlador_sistema):
-        self.__produtos_DAO = ProdutoDAO()
+        self.__produto_DAO = ProdutoDAO()
         self.__controlador_sistema = controlador_sistema
         self.__tela_produto = TelaProduto()
 
     def pega_produto_por_codigo(self, codigo: int):
-        for i in self.__produtos_DAO.get_all():
+        for i in self.__produto_DAO.get_all():
             if i.codigo_produto == codigo:
                 return i
         return None
@@ -28,7 +28,7 @@ class ControladorProdutos():
                                 int(dados_produto["codigo_produto"]),
                                 float(dados_produto["preco_venda"]),
                                 int(dados_produto["quant_estoque"]))
-                self.__produtos_DAO.add(produto)
+                self.__produto_DAO.add(produto)
                 self.__tela_produto.mostra_mensagem("Produto incluído com sucesso!")
             else:
                 raise EncontradoNaListaException()
@@ -37,7 +37,7 @@ class ControladorProdutos():
 
     def alterar_preco_produto(self):
         self.lista_produtos()
-        if len(self.__produtos_DAO.self.__cache) == 0:
+        if len(self.__produtos_DAO.__cache) == 0:
             return None
         codigo_produto = self.__tela_produto.seleciona_produto()
         if codigo_produto == None:
@@ -47,9 +47,9 @@ class ControladorProdutos():
             if produto is not None:
                 valor = self.__tela_produto.pega_dados_produto_alterar()
                 if valor == None:
-                    return 
+                    return None
                 produto.preco_venda = float(valor)
-                self.__produtos_DAO.update(produto)
+                self.__produto_DAO.update(produto)
                 self.__tela_produto.mostra_mensagem("Preço alterado com sucesso!")
             else:
                 raise NaoEncontradoNaListaException("produto")
@@ -58,7 +58,7 @@ class ControladorProdutos():
 
     def alterar_estoque(self):
         self.lista_produtos()
-        if len(self.__produtos_DAO.cache) == 0:
+        if len(self.__produtos_DAO) == 0:
             return None
         codigo_produto = self.__tela_produto.seleciona_produto()
         if codigo_produto == None:
@@ -72,7 +72,7 @@ class ControladorProdutos():
                 if isinstance(valor, float):
                     produto.quant_estoque += int(valor)
                     self.__tela_produto.mostra_mensagem("Estoque alterado com sucesso!")
-                    self.__produtos_DAO.update(produto)
+                    self.__produto_DAO.update(produto)
 
                 else:
                     self.__tela_produto.mostra_mensagem("Coloque um valor inteiro!")
@@ -82,12 +82,12 @@ class ControladorProdutos():
             self.__tela_produto.mostra_mensagem(e)
 
     def lista_produtos(self):
-        if len(self.__produtos_DAO.cache) == 0:
+        if self.__produtos_DAO.__cache == {}:        # VER O QU EU FAÇO AQUI
             self.__tela_produto.mostra_mensagem("Não há produtos cadastrados.")
             return None
         else:
             dados_produto = []
-            for produto in self.__produtos_DAO.get_all():
+            for produto in self.__produto_DAO.get_all():
                 dado = {"nome": produto.nome,
                          "codigo_produto": produto.codigo_produto,
                          "preco_venda": produto.preco_venda,
@@ -98,7 +98,7 @@ class ControladorProdutos():
 
     def excluir_produto(self):
         self.lista_produtos()
-        if len(self.__produtos_DAO.cache) == 0:
+        if len(self.__produtos_DAO) == 0: # VER O QUE EU FAÇO AQUI
             return None
         codigo_produto = int(self.__tela_produto.seleciona_produto())
         if codigo_produto == None:
@@ -106,7 +106,7 @@ class ControladorProdutos():
         produto = self.pega_produto_por_codigo(codigo_produto)
         try:
             if produto is not None:
-                self.__produtos_DAO.remove(codigo_produto)
+                self.__produto_DAO.remove(codigo_produto)
                 self.__tela_produto.mostra_mensagem("Produto excluído com sucesso!")
             else:
                 raise NaoEncontradoNaListaException("produto")

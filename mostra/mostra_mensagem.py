@@ -1,9 +1,9 @@
 import PySimpleGUI as sg
 
 
-class TesteNumeroOpcoes():
+class MostraMensagem():
     def __init__(self):
         pass
 
-    def teste_numero_opcoes(self, msg):
+    def mostra_mensagem(self, msg):
         sg.popup("", msg)
