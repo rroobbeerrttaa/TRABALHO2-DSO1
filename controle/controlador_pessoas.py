@@ -5,6 +5,7 @@ from excessoes.encontrado_na_lista_exception import EncontradoNaListaException
 from excessoes.nao_encontrado_na_lista_exception import NaoEncontradoNaListaException
 from DAOs.vendedor_dao import VendedorDAO
 from DAOs.cliente_dao import ClienteDAO
+#corrigir se é cpf ou número nas entidades e no DAO
 
 class ControladorPessoas():
     def __init__(self, controlador_sistema):
@@ -39,7 +40,7 @@ class ControladorPessoas():
     def incluir_cliente(self):
         dados_pessoa = self.__tela_pessoa.pega_dados_pessoa()
         try:
-            if self.pega_cliente_por_cpf(dados_pessoa["cpf"]) is None:
+            if self.pega_cliente_por_cpf(dados_pessoa["cpf"]) is None: #verificar se é cpf ou número
                 pessoa = Cliente(dados_pessoa["nome"],
                                 dados_pessoa["cpf"],
                                 dados_pessoa["celular"])
@@ -53,7 +54,7 @@ class ControladorPessoas():
     def incluir_vendedor(self):
         dados_pessoa = self.__tela_pessoa.pega_dados_pessoa()
         try:
-            if self.pega_vendedor_por_cpf(dados_pessoa["cpf"]) is None:
+            if self.pega_vendedor_por_cpf(dados_pessoa["cpf"]) is None: #verificar se é cpf ou número
                 pessoa = Vendedor(dados_pessoa["nome"],
                                 dados_pessoa["cpf"],
                                 dados_pessoa["celular"], 
