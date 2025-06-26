@@ -40,7 +40,8 @@ class ControladorPessoas():
     def incluir_cliente(self):
         dados_pessoa = self.__tela_pessoa.pega_dados_pessoa()
         try:
-            if self.pega_cliente_por_cpf(dados_pessoa["cpf"]) is None: #verificar se é cpf ou número
+            #verificar se é cpf ou número ##pode ser cpf mesmo
+            if self.pega_cliente_por_cpf(dados_pessoa["cpf"]) is None:
                 pessoa = Cliente(dados_pessoa["nome"],
                                 dados_pessoa["cpf"],
                                 dados_pessoa["celular"])
@@ -54,7 +55,8 @@ class ControladorPessoas():
     def incluir_vendedor(self):
         dados_pessoa = self.__tela_pessoa.pega_dados_pessoa()
         try:
-            if self.pega_vendedor_por_cpf(dados_pessoa["cpf"]) is None: #verificar se é cpf ou número
+            #verificar se é cpf ou número ##pode ser cpf mesmo
+            if self.pega_vendedor_por_cpf(dados_pessoa["cpf"]) is None: 
                 pessoa = Vendedor(dados_pessoa["nome"],
                                 dados_pessoa["cpf"],
                                 dados_pessoa["celular"], 
@@ -68,29 +70,32 @@ class ControladorPessoas():
             self.__tela_pessoa.mostra_mensagem(e)     
 
     def lista_cliente(self):
-        if len(self.__clientes_DAO) == 0:
+        clientes = list(self.__clientes_DAO.get_all())
+        if len(clientes) == 0:
             self.__tela_pessoa.mostra_mensagem("Não há clientes cadastrados.")
             return None
 
-        for cliente in self.__clientes_DAO:
+        for cliente in clientes:
             self.__tela_pessoa.mostra_cliente({"nome": cliente.nome,
                                                "cpf": cliente.numero,
                                                "celular": cliente.celular})
 
     def lista_vendedores(self):
-        if len(self.__clientes_DAO) == 0:
+        vendedores = list(self.__vendedores_DAO.get_all())
+        if len(vendedores) == 0:
             self.__tela_pessoa.mostra_mensagem("Não há vendedores cadastrados.")
             return None
 
-        for vendedor in self.__vendedores_DAO.get_all():
+        for vendedor in vendedores:
             self.__tela_pessoa.mostra_vendedor({"nome": vendedor.nome,
                                                 "cpf": vendedor.numero,
                                                 "celular": vendedor.celular,
                                                 "valor_vendido_total": vendedor.valor_vendido_total})
 
     def excluir_cliente(self):
+        clientes = list(self.__clientes_DAO.get_all())
         try:
-            if len(self.__clientes_DAO) == 0:
+            if len(clientes) == 0:
                 self.__tela_pessoa.mostra_mensagem("Não existe clientes para excluir")
             else:
                 self.lista_cliente()
@@ -98,10 +103,9 @@ class ControladorPessoas():
                 cliente = self.pega_cliente_por_cpf(cpf)
 
                 if cliente is not None:
-                    #self.__clientes.remove(cliente)
                     self.__clientes_DAO.remove(cliente.numero)
                     self.__tela_pessoa.mostra_mensagem("Cliente excluído com sucesso!")
-                    if len(self.__clientes_DAO) != 0:
+                    if len(clientes) != 0:
                         self.__tela_pessoa.mostra_mensagem("Clientes restantes:")
                         self.lista_cliente()
                 else:
@@ -110,8 +114,9 @@ class ControladorPessoas():
             self.__tela_pessoa.mostra_mensagem(e)
 
     def excluir_vendedor(self):
+        vendedores = list(self.__vendedores_DAO.get_all())
         try:
-            if len(self.__vendedores_DAO) == 0:
+            if len(vendedores) == 0:
                 self.__tela_pessoa.mostra_mensagem("Não existe vendedor para excluir")
             else:
                 self.lista_vendedores()
@@ -121,7 +126,7 @@ class ControladorPessoas():
                     #self.__vendedores.remove(vendedor)
                     self.__vendedores_DAO.remove(vendedor.numero)
                     self.__tela_pessoa.mostra_mensagem("Vendedor excluído com sucesso!")
-                    if len(self.__vendedores_DAO) != 0:
+                    if len(vendedores) != 0:
                         self.__tela_pessoa.mostra_mensagem("Vendedores restantes:")
                         self.lista_vendedores()
                 else:
