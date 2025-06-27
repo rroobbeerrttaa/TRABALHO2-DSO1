@@ -1,2 +1,13 @@
 excluir esse arquivo depois
 cria o arquivo pkl
+
+não dava para usar len, tive que transformar o get all em lista e dps usar o len
+
+A chave de uma pessoa não pode ser um inteiro porque vou usar cpf como código e ele é em str
+Corrigi em vendedor_dao e cliente_dao
+
+Use sempre o tipo correto da chave (CPF como string, código como int).
+No DAO, ajuste os métodos para aceitar o tipo correto.
+No controlador, sempre converta get_all() para lista antes de usar.
+Nunca use len(self.__clientes_DAO), sempre len(list(self.__clientes_DAO.get_all())).
+No controlador de vendas, ajuste o uso do DAO para listar e remover vendas.
