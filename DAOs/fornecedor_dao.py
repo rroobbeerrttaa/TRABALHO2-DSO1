@@ -1,7 +1,6 @@
 from DAOs.dao import DAO
 from entidade.fornecedor import Fornecedor
 
-#cada entidade terá uma classe dessa, implementação bem simples.
 class FornecedorDAO(DAO):
     def __init__(self):
         super().__init__('fornecedores.pkl')
@@ -18,6 +17,6 @@ class FornecedorDAO(DAO):
         if isinstance(key, str):
             return super().get(key)
 
-    def remove(selfself, key:str):
+    def remove(self, key:str):
         if(isinstance(key, str)):
             return super().remove(key)

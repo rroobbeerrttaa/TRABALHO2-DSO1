@@ -7,7 +7,7 @@ from DAOs.fornecedor_dao import FornecedorDAO
 
 class ControladorFornecedores:
     def __init__(self, controlador_sistema):
-        self.__fornecedor_DAO = FornecedorDAO
+        self.__fornecedor_DAO = FornecedorDAO()
         self.__tela_fornecedor = TelaFornecedor()
         self.__controlador_sistema = controlador_sistema
 
@@ -28,13 +28,11 @@ class ControladorFornecedores:
             if objeto_produto is not None:
                 novo_fornecedor = self.pega_fornecedor_por_cnpj(dados_fornecedor["cnpj"]) 
                 if novo_fornecedor is None:
-                    fornecedor = Fornecedor(
-                        str(dados_fornecedor["nome"]),
-                        str(dados_fornecedor["cnpj"]),
-                        int(dados_fornecedor["celular"]),
-                        objeto_produto,
-                        float(dados_fornecedor["preco"]) 
-                    )
+                    fornecedor = Fornecedor(str(dados_fornecedor["nome"]),
+                                            str(dados_fornecedor["cnpj"]),
+                                            int(dados_fornecedor["celular"]),
+                                            objeto_produto,
+                                            float(dados_fornecedor["preco"]))
                     self.__fornecedor_DAO.add(fornecedor)
                     self.__tela_fornecedor.mostra_mensagem("Fornecedor incluído com sucesso!")
                 else:
@@ -61,7 +59,6 @@ class ControladorFornecedores:
                 else:            
                     novo_codigo_produto = int(novos_dados_fornecedor["produto"])
                     novo_produto = self.__controlador_sistema.controlador_produtos.pega_produto_por_codigo(novo_codigo_produto)
-                    fornecedor.produto.quant_estoque -= fornecedor.quantidade
                     if novo_produto is not None:
                             fornecedor.nome = novos_dados_fornecedor["nome"]
                             fornecedor.celular = novos_dados_fornecedor["celular"]

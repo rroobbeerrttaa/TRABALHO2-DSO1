@@ -149,7 +149,7 @@ class ControladorPedidos():
                         0: self.retornar}
 
         while True:
-            opcao_escolhida = self.__tela_pedidos.tela_opcoes()
+            opcao_escolhida = self.__tela_pedido.tela_opcoes()
             if opcao_escolhida in lista_opcoes:
                 lista_opcoes[opcao_escolhida]()
             else:
