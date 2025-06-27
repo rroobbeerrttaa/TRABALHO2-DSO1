@@ -2,12 +2,15 @@
 from mostra.mostra_mensagem import MostraMensagem
 import PySimpleGUI as sg
 
-
 class TelaPessoa(MostraMensagem):
 
     def __init__(self):
         self.__window = None
         self.init_opcoes()
+
+    def open(self):
+        button, values = self.__window.Read()
+        return button, values
 
     def teste_do_inteiro(self, valor_recebido, propriedade = " "):
         try:
@@ -31,15 +34,6 @@ class TelaPessoa(MostraMensagem):
                 return None
 
     def tela_opcoes(self):
-        '''print("-------- PESSOAS ----------")
-        print()
-        print("1 - Incluir Cliente")
-        print("2 - Incluir Vendedor")
-        print("3 - Listar Clientes")
-        print("4 - Excluir Cliente")
-        print("5 - Listar Vendedores")
-        print("6 - Excluir Vendedor")
-        print("0 - Retornar")'''
         self.init_opcoes()
         button, values = self.open()
         opcao = 9
@@ -88,7 +82,7 @@ class TelaPessoa(MostraMensagem):
             ]
             self.__window = sg.Window('Dados da Pessoa').Layout(layout)
 
-            button, values = self.__window.Read()
+            button, values = self.open()
             if button in (None, 'Cancelar'):
                 self.close()
                 return None
@@ -105,27 +99,54 @@ class TelaPessoa(MostraMensagem):
             elif button in (None, 'Cancelar'):
                 return None
 
-    def mostra_cliente(self, dados_cliente):
-        print("------CLIENTE------")
-        print("NOME:", dados_cliente["nome"])
-        print("CPF:", dados_cliente["cpf"])
-        print("CELULAR:", dados_cliente["celular"])
-        print()
+    def mostra_cliente(self, dados_cliente):        
+        layout = [
+            [sg.Text("------CLIENTES------", font=("Georgia", 20))]
+        ]
+        for cliente in dados_cliente:
+            layout += [
+                [sg.Text(f"NOME: {cliente['nome']}")],
+                [sg.Text(f"CPF: {cliente['cpf']}")],
+                [sg.Text(f"CELULAR: {cliente['celular']}")],
+                [sg.Text("-" * 30)]
+            ]
+        layout += [[sg.Button("OK")]]
+        window = sg.Window("Lista de Clientes", layout)
+        window.read()
+        window.close()
 
     def mostra_vendedor(self, dados_vendedor):
-        print("------VENDEDOR------")
-        print("NOME:", dados_vendedor["nome"])
-        print("CPF:", dados_vendedor["cpf"])
-        print("CELULAR:", dados_vendedor["celular"])
-        print(f"VALOR TOTAL VENDIDO: R${dados_vendedor['valor_vendido_total']:.2f}")
-        print()
+        str_vendedores = "-------- VENDEDORES ----------" + '\n\n' 
+        
+        for vendedor in dados_vendedor:
+            str_vendedores += "NOME: " + str(vendedor["nome"]) + '\n'
+            str_vendedores += "CPF: " + str(vendedor["cpf"]) + '\n'
+            str_vendedores += "CELULAR: " + str(vendedor["celular"]) + '\n\n'
+            str_vendedores += f"VALOR TOTAL VENDIDO: R${dados_vendedor['valor_vendido_total']:.2f}" + '\n'
+
+        sg.Popup("", str_vendedores)
 
     def seleciona_pessoa(self):
-        print("-------- SELECIONADOR DE PESSOA ----------")
-        cpf = self.teste_do_cpf("CPF da pessoa que deseja selecionar (apenas números): ")
-        print()    
-        return cpf
+        while True:
+            sg.ChangeLookAndFeel('DarkRed1')
+            layout = [
+                [sg.Text('-------- SELECIONADOR DE PESSOA ----------', font=("Georgia", 25))],
+                [sg.Text('Digite o cpf da pessoa que deseja selecionar: ', font=("Georgia", 20))],
+                [sg.Text('CPF da pessoa:', size=(20, 1)), sg.InputText('11 dígitos', key='codigo')],
+                [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+            ]
+            self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
+            
+            button, values = self.open()
+            if button in (None, 'Cancelar'):
+                self.close()  
+                return None
 
-    def mostra_mensagem(self, msg):
-        print(msg)
-        print()
+            cpf = self.teste_do_cpf(values['codigo'], 'o CPF')
+            if cpf != None:
+                self.close()
+                return cpf
+            self.close()
+
+    def close(self):
+        self.__window.Close()
