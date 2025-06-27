@@ -37,7 +37,8 @@ class ControladorProdutos():
 
     def alterar_preco_produto(self):
         self.lista_produtos()
-        if len(self.__produtos_DAO.__cache) == 0:
+        produtos = list(self.__produto_DAO.get_all())
+        if len(produtos) == 0:
             return None
         codigo_produto = self.__tela_produto.seleciona_produto()
         if codigo_produto == None:
@@ -58,7 +59,8 @@ class ControladorProdutos():
 
     def alterar_estoque(self):
         self.lista_produtos()
-        if len(self.__produtos_DAO) == 0:
+        produtos = list(self.__produto_DAO.get_all())
+        if len(produtos) == 0:
             return None
         codigo_produto = self.__tela_produto.seleciona_produto()
         if codigo_produto == None:
@@ -68,12 +70,11 @@ class ControladorProdutos():
             if produto is not None:
                 valor = self.__tela_produto.pega_dados_produto_alterar()
                 if valor == None:
-                    return
-                if isinstance(valor, float):
+                    return None
+                if int(valor) == valor:
                     produto.quant_estoque += int(valor)
                     self.__tela_produto.mostra_mensagem("Estoque alterado com sucesso!")
                     self.__produto_DAO.update(produto)
-
                 else:
                     self.__tela_produto.mostra_mensagem("Coloque um valor inteiro!")
             else:
@@ -82,7 +83,8 @@ class ControladorProdutos():
             self.__tela_produto.mostra_mensagem(e)
 
     def lista_produtos(self):
-        if self.__produtos_DAO.__cache == {}:        # VER O QU EU FAÇO AQUI
+        produtos = list(self.__produto_DAO.get_all())
+        if len(produtos) == 0:
             self.__tela_produto.mostra_mensagem("Não há produtos cadastrados.")
             return None
         else:
@@ -98,12 +100,13 @@ class ControladorProdutos():
 
     def excluir_produto(self):
         self.lista_produtos()
-        if len(self.__produtos_DAO) == 0: # VER O QUE EU FAÇO AQUI
+        produtos = list(self.__produto_DAO.get_all())
+        if len(produtos) == 0:
             return None
-        codigo_produto = int(self.__tela_produto.seleciona_produto())
+        codigo_produto = self.__tela_produto.seleciona_produto()
         if codigo_produto == None:
             return None
-        produto = self.pega_produto_por_codigo(codigo_produto)
+        produto = self.pega_produto_por_codigo(int(codigo_produto))
         try:
             if produto is not None:
                 self.__produto_DAO.remove(codigo_produto)

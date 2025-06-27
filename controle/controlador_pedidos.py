@@ -54,7 +54,8 @@ class ControladorPedidos():
 
     def alterar_pedido(self):
         self.lista_pedidos()
-        if len(self.__pedidos) == 0: # VER O QUE EU FAÇO AQUI
+        pedidos = list(self.__pedido_DAO.get_all())
+        if len(pedidos) == 0:
             return None
         codigo_pedido = self.__tela_pedido.seleciona_pedido()
         if codigo_pedido == None:
@@ -98,7 +99,8 @@ class ControladorPedidos():
             self.__tela_pedido.mostra_mensagem(e)
 
     def lista_pedidos(self):
-        if len(self.__pedidos) != 0:
+        pedidos = list(self.__pedido_DAO.get_all())
+        if len(pedidos) != 0:
             dados_pedidos = []
             for pedido in self.__pedido_DAO.get_all():
                 pedido = {"codigo": pedido.codigo,
@@ -116,7 +118,8 @@ class ControladorPedidos():
 
     def excluir_pedido(self):
         self.lista_pedidos()
-        if len(self.__pedidos) != 0: # VER O QUE EU FAÇO AQUI
+        pedidos = list(self.__pedido_DAO.get_all())
+        if len(pedidos) != 0: 
             codigo_pedido = self.__tela_pedido.seleciona_pedido()
             if codigo_pedido == None:
                 return None

@@ -4,7 +4,7 @@ from entidade.produto import Produto
 from excessoes.encontrado_na_lista_exception import EncontradoNaListaException
 from excessoes.nao_encontrado_na_lista_exception import NaoEncontradoNaListaException
 from DAOs.fornecedor_dao import FornecedorDAO
-from DAOs.produto_dao import ProdutoDAO
+
 class ControladorFornecedores:
     def __init__(self, controlador_sistema):
         self.__fornecedor_DAO = FornecedorDAO
@@ -12,7 +12,7 @@ class ControladorFornecedores:
         self.__controlador_sistema = controlador_sistema
 
     def pega_fornecedor_por_cnpj(self, cnpj: str):
-        for fornecedor in self.__fornecedores_DAO.get_all():
+        for fornecedor in self.__fornecedor_DAO.get_all():
             if int(fornecedor.numero) == int(cnpj):
                 return fornecedor
         return None
@@ -46,7 +46,8 @@ class ControladorFornecedores:
 
     def alterar_fornecedor(self):
         self.lista_fornecedores()
-        if len(self.__produtos_DAO) == 0: #ANALIZAR ESSA PARTE
+        fornecedores = list(self.__fornecedor_DAO.get_all())
+        if len(fornecedores) == 0:
             return None
         cnpj_fornecedor = self.__tela_fornecedor.seleciona_fornecedor()
         if cnpj_fornecedor == None:
@@ -77,7 +78,8 @@ class ControladorFornecedores:
 
     def adicionar_endereco(self):
         self.lista_fornecedores()
-        if self.__fornecedores == []: #ANALIZAR ESSA PARTE
+        fornecedores = list(self.__fornecedor_DAO.get_all())
+        if len(fornecedores) == 0:
             return None
         cnpj_fornecedor = self.__tela_fornecedor.seleciona_fornecedor()
         if cnpj_fornecedor == None: 
@@ -109,8 +111,10 @@ class ControladorFornecedores:
             self.__tela_fornecedor.mostra_mensagem(e)
 
     def lista_fornecedores(self):
-        if not self.__fornecedores: #AGORA TENHO QUE FAZER ISSO NO DICIONARIO 
+        fornecedores = list(self.__fornecedor_DAO.get_all())
+        if len(fornecedores) == 0:
             self.__tela_fornecedor.mostra_mensagem("Não há fornecedores cadastrados.")
+            return None
         else:
             dados_fornecedor = [] 
             for fornecedor in self.__fornecedor_DAO.get_all():
@@ -137,8 +141,9 @@ class ControladorFornecedores:
 
     def excluir_fornecedor(self):
         self.lista_fornecedores()
-        if self.__fornecedores == []: # TENHO QUE VER O QUE EU VOU COLOCAR AQUI 
-            return None 
+        fornecedores = list(self.__fornecedor_DAO.get_all())
+        if len(fornecedores) == 0:
+            return None
         cnpj_fornecedor = self.__tela_fornecedor.seleciona_fornecedor()
         if cnpj_fornecedor == None:
                 return None
@@ -154,7 +159,8 @@ class ControladorFornecedores:
 
     def excluir_endereco(self):
         self.lista_fornecedores()
-        if self.__fornecedores == []: # VOU VER O QUE EU POHO AQUI 
+        fornecedores = list(self.__fornecedor_DAO.get_all())
+        if len(fornecedores) == 0:
             return None
         cnpj_fornecedor = self.__tela_fornecedor.seleciona_fornecedor()
         if cnpj_fornecedor == None:

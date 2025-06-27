@@ -243,9 +243,6 @@ class TelaFornecedor(MostraMensagem):
                 return cep
             self.close()
 
-    def mostra_mensagem(self, msg):
-        sg.popup("", msg)
-
     def close(self):
         self.__window.Close()
 

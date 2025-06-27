@@ -202,9 +202,6 @@ class TelaPedido(MostraMensagem):
                 self.close()
                 return codigo
             self.close()
-    
-    def mostra_mensagem(self, msg):
-        sg.popup("", msg)
 
     def close(self):
         self.__window.Close()
