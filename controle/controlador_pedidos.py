@@ -129,7 +129,8 @@ class ControladorPedidos():
                 if pedido is not None:
                     objeto_produto = self.__controlador_sistema.controlador_produtos.pega_produto_por_codigo(pedido.produto.codigo_produto)
                     objeto_produto.quant_estoque = int(objeto_produto.quant_estoque) - int(pedido.quantidade)
-                    self.__pedido_DAO.remove(pedido)
+                    self.__pedido_DAO.remove(codigo_pedido)
+                    self.__pedido_DAO.update(pedido)
                     self.__produtos_DAO.update(objeto_produto)
                     self.__tela_pedido.mostra_mensagem("Pedido removido com sucesso!")
                 else:

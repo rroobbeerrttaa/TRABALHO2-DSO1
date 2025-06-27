@@ -62,10 +62,10 @@ class TelaProduto(MostraMensagem):
             sg.ChangeLookAndFeel('DarkRed1')
             layout = [
                 [sg.Text('-------- DADOS PRODUTO ----------', font=("Georgia", 25))],
-                [sg.Text('Nome: ', size=(22, 1)), sg.InputText('', key='nome')],
-                [sg.Text('Código do produto: ', size=(22, 1)), sg.InputText('', key='codigo_produto')],
-                [sg.Text('Preço de venda: ', size=(22, 1)), sg.InputText('', key='preco_venda')],
-                [sg.Text('Quantidade comprada: ', size=(22, 1)), sg.InputText('', key='quant_estoque')],
+                [sg.Text('Nome: ', font=("Georgia", 15), size=(22, 1)), sg.InputText('', key='nome')],
+                [sg.Text('Código do produto: ', font=("Georgia", 15), size=(22, 1)), sg.InputText('', key='codigo_produto')],
+                [sg.Text('Preço de venda: ', font=("Georgia", 15), size=(22, 1)), sg.InputText('', key='preco_venda')],
+                [sg.Text('Quantidade comprada: ', font=("Georgia", 15), size=(22, 1)), sg.InputText('', key='quant_estoque')],
                 [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
             ]
             self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
@@ -96,7 +96,7 @@ class TelaProduto(MostraMensagem):
             sg.ChangeLookAndFeel('DarkRed1')
             layout = [
                 [sg.Text('-------- VALOR PARA ALTERAR ----------', font=("Georgia", 25))],
-                [sg.Text('Preço venda / Quantidade a mais no estoque: ', size=(34, 1)), sg.InputText('', key='valor')],
+                [sg.Text('Preço venda / Quantidade a mais no estoque: ', font=("Georgia", 15), size=(34, 1)), sg.InputText('', key='valor')],
                 [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
             ]            
 
@@ -131,7 +131,7 @@ class TelaProduto(MostraMensagem):
             layout = [
                 [sg.Text('-------- SELECIONADOR DE PRODUTO ----------', font=("Georgia", 25))],
                 [sg.Text('Digite o código do produto que deseja selecionar: ', font=("Georgia", 20))],
-                [sg.Text('Código do produto:', size=(20, 1)), sg.InputText('', key='codigo')],
+                [sg.Text('Código do produto:', font=("Georgia", 15), size=(20, 1)), sg.InputText('', key='codigo')],
                 [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
             ]
             self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
