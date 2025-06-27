@@ -7,17 +7,17 @@ class ClienteDAO(DAO):
         super().__init__('clientes.pkl')
 
     def add(self, cliente: Cliente):
-        if((cliente is not None) and isinstance(cliente, Cliente) and isinstance(cliente.cpf, int)):
-            super().add(cliente.cpf, cliente)
+        if((cliente is not None) and isinstance(cliente, Cliente) and isinstance(cliente.numero, str)):
+            super().add(cliente.numero, cliente)
 
     def update(self, cliente: Cliente):
-        if((cliente is not None) and isinstance(cliente, Cliente) and isinstance(cliente.cpf, int)):
-            super().update(cliente.cpf, cliente)
+        if((cliente is not None) and isinstance(cliente, Cliente) and isinstance(cliente.numero, str)):
+            super().update(cliente.numero, cliente)
 
-    def get(self, key:int): #a key aqui é o cpf do cliente
-        if isinstance(key, int):
+    def get(self, key:str): #a key aqui é o numero do cliente
+        if isinstance(key, str):
             return super().get(key)
 
-    def remove(self, key:int): #a key aqui é o cpf do cliente ##estava selfself antes
-        if(isinstance(key, int)):
+    def remove(self, key:str): #a key aqui é o numero do cliente ##estava selfself antes
+        if(isinstance(key, str)):
             return super().remove(key)

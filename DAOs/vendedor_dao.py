@@ -7,17 +7,17 @@ class VendedorDAO(DAO):
         super().__init__('vendedores.pkl')
 
     def add(self, vendedor: Vendedor):
-        if((vendedor is not None) and isinstance(vendedor, Vendedor) and isinstance(vendedor.cpf, int)):
-            super().add(vendedor.cpf, vendedor)
+        if((vendedor is not None) and isinstance(vendedor, Vendedor) and isinstance(vendedor.numero, str)):
+            super().add(vendedor.numero, vendedor)
 
     def update(self, vendedor: Vendedor):
-        if((vendedor is not None) and isinstance(vendedor, Vendedor) and isinstance(vendedor.cpf, int)):
-            super().update(vendedor.cpf, vendedor)
+        if((vendedor is not None) and isinstance(vendedor, Vendedor) and isinstance(vendedor.numero, str)):
+            super().update(vendedor.numero, vendedor)
 
-    def get(self, key:int): #a key aqui é o cpf do vendedor
-        if isinstance(key, int):
+    def get(self, key:str): #a key aqui é o numero do vendedor
+        if isinstance(key, str):
             return super().get(key)
 
-    def remove(self, key:int): #a key aqui é o cpf do vendedor ##estava selfself antes
-        if(isinstance(key, int)):
+    def remove(self, key:str): #a key aqui é o numero do vendedor ##estava selfself antes
+        if(isinstance(key, str)):
             return super().remove(key)

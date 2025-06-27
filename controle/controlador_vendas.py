@@ -68,12 +68,14 @@ class ControladorVendas():
           self.__tela_venda.mostra_mensagem(f'Erro inesperado: {e}')
 
   def lista_venda(self):
-    if not self.__vendas:
+    vendas = list(self.__vendas_DAO.get_all()) #transformar get all em lista
+    print(vendas)
+    if not vendas:
       self.__tela_venda.mostra_mensagem("Sem vendas cadastradas.")
       return
-    
-    self.__tela_venda.mostra_mensagem("-------- VENDAS CADASTRADAS --------")  
-    for venda in self.__vendas:
+
+    self.__tela_venda.mostra_mensagem("-------- VENDAS CADASTRADAS --------")
+    for venda in vendas:
       self.__tela_venda.mostra_venda({"codigo": venda.codigo,
                                       "vendedor": venda.vendedor.nome,
                                       "cliente": venda.cliente.nome,
@@ -100,7 +102,7 @@ class ControladorVendas():
         venda.vendedor.valor_vendido_total -= venda.valor
         venda.produto.quant_estoque += venda.quantidade
         venda.cliente.remover_venda(venda)
-        self.__vendas.remove(venda)
+        self.__vendas.remove(venda.codigo)
         self.__tela_venda.mostra_mensagem("Venda excluída com sucesso!")
         self.__tela_venda.mostra_mensagem("Vendas restantes:")
         self.lista_venda()
