@@ -172,7 +172,7 @@ class TelaFornecedor(MostraMensagem):
                 sg.ChangeLookAndFeel('DarkRed1')
                 layout = [
                     [sg.Text('-------- DADOS ENDERECO ----------', font=("Georgia", 25))],
-                    [sg.Text('CEP (só numeros e nada mais): ', font=("Georgia", 15), size=(15, 1)), sg.InputText('', key='cep')],
+                    [sg.Text('CEP (só numeros): ', font=("Georgia", 15), size=(15, 1)), sg.InputText('', key='cep')],
                     [sg.Text('Rua: ', font=("Georgia", 15), size=(15, 1)), sg.InputText('', key='rua')],
                     [sg.Text('Número: ', font=("Georgia", 15), size=(15, 1)), sg.InputText('', key='numero')],
                     [sg.Button('Confirmar'), sg.Cancel('Cancelar')]

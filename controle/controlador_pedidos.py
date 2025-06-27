@@ -8,6 +8,7 @@ from DAOs.produto_dao import ProdutoDAO
 class ControladorPedidos():
     def __init__(self, controlador_sistema):
         self.__pedido_DAO = PedidoDAO()
+        self.__produtos_DAO = ProdutoDAO()
         self.__controlador_sistema = controlador_sistema
         self.__tela_pedido = TelaPedido()
 
@@ -41,7 +42,7 @@ class ControladorPedidos():
                                         dados_pedido["prazo_entrega"])
                         self.__pedido_DAO.add(pedido)  
                         objeto_produto.quant_estoque = int(objeto_produto.quant_estoque) + int(dados_pedido["quantidade"])
-                        ProdutoDAO.update(objeto_produto)
+                        self.__produtos_DAO.update(objeto_produto)
                         self.__tela_pedido.mostra_mensagem("Adicionado com sucesso!")
                     else:
                         raise NaoEncontradoNaListaException("produto")
@@ -86,8 +87,8 @@ class ControladorPedidos():
                             pedido.prazo_entrega = int(novos_dados["prazo_entrega"])
                             novo_produto.quant_estoque += int(novos_dados["quantidade"])
                             self.__pedido_DAO.update(pedido)
-                            PedidoDAO.update(produto_antigo)
-                            PedidoDAO.update(novo_produto)
+                            self.__produtos_DAO.update(produto_antigo)
+                            self.__produtos_DAO.update(novo_produto)
                             self.__tela_pedido.mostra_mensagem("Pedido alterado com sucesso!")
                         else:
                             raise NaoEncontradoNaListaException("produto")
@@ -128,8 +129,9 @@ class ControladorPedidos():
                 if pedido is not None:
                     objeto_produto = self.__controlador_sistema.controlador_produtos.pega_produto_por_codigo(pedido.produto.codigo_produto)
                     objeto_produto.quant_estoque = int(objeto_produto.quant_estoque) - int(pedido.quantidade)
-                    self.__pedido_DAO.remove(pedido)
-                    PedidoDAO.update(objeto_produto)
+                    self.__pedido_DAO.remove(codigo_pedido)
+                    self.__pedido_DAO.update(pedido)
+                    self.__produtos_DAO.update(objeto_produto)
                     self.__tela_pedido.mostra_mensagem("Pedido removido com sucesso!")
                 else:
                     raise NaoEncontradoNaListaException("pedido")
@@ -149,7 +151,7 @@ class ControladorPedidos():
                         0: self.retornar}
 
         while True:
-            opcao_escolhida = self.__tela_pedidos.tela_opcoes()
+            opcao_escolhida = self.__tela_pedido.tela_opcoes()
             if opcao_escolhida in lista_opcoes:
                 lista_opcoes[opcao_escolhida]()
             else:

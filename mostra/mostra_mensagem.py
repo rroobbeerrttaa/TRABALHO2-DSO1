@@ -7,3 +7,4 @@ class MostraMensagem():
 
     def mostra_mensagem(self, msg):
         sg.popup("", msg)
+        print(msg)

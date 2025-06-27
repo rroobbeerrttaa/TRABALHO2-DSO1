@@ -2,6 +2,7 @@ from datetime import datetime
 from mostra.mostra_mensagem import MostraMensagem
 import PySimpleGUI as sg
 
+
 class TelaPedido(MostraMensagem):
 
     def __init__(self):
@@ -74,8 +75,6 @@ class TelaPedido(MostraMensagem):
         ]
         self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
 
-
-
     def pega_dados_pedido(self):
         while True:
             sg.ChangeLookAndFeel('DarkRed1')
@@ -91,12 +90,10 @@ class TelaPedido(MostraMensagem):
                 [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
                 ]            
             self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
-
             button, values = self.open()
             if button in (None, 'Cancelar'):
                 self.close()  
                 return None
-
             cnpj = self.teste_do_cnpj(values['cnpj'])
             codigo = self.teste_do_inteiro(values['codigo'], "o codigo")
             codigo_produto = self.teste_do_inteiro(values['codigo_produto'], "o codigo do produto")
@@ -104,7 +101,6 @@ class TelaPedido(MostraMensagem):
             data = self.teste_da_data(values['data'])
             valor_frete = self.teste_do_float(values['valor_frete'], "o valor do frete")
             prazo_entrega = self.teste_do_inteiro(values['prazo_entrega'], "o prazo de entrega")
-
             if ((cnpj != None) and
                 (codigo != None) and
                 (codigo_produto != None) and
@@ -128,28 +124,25 @@ class TelaPedido(MostraMensagem):
             sg.ChangeLookAndFeel('DarkRed1')
             layout = [
                 [sg.Text('-------- NOVOS DADOS DO FORNECEDOR ----------', font=("Georgia", 40))],
-                [sg.Text('CNPJ do fornecedor: ', font=("Georgia", 15), size=(15, 1)), sg.InputText('', key='cnpj')],
-                [sg.Text('Código do produto: ', font=("Georgia", 15), size=(15, 1)), sg.InputText('', key='codigo_produto')],
-                [sg.Text('Quantidade do pedido: ', font=("Georgia", 15), size=(15, 1)), sg.InputText('', key='quantidade')],
-                [sg.Text('Data do pedido feito (DD/MM/AAAA): ', font=("Georgia", 15), size=(15, 1)), sg.InputText('', key='data')],
-                [sg.Text('Valor do frete do pedido: ', font=("Georgia", 15), size=(15, 1)), sg.InputText('', key='valor_frete')],
-                [sg.Text('Prazo do pedido (quantidade de dias): ', font=("Georgia", 15), size=(15, 1)), sg.InputText('', key='prazo_entrega')],
+                [sg.Text('CNPJ do fornecedor: ', font=("Georgia",15), size=(33, 1)), sg.InputText('', key='cnpj')],
+                [sg.Text('Código do produto: ', font=("Georgia",15), size=(33, 1)), sg.InputText('', key='codigo_produto')],
+                [sg.Text('Quantidade do pedido: ', font=("Georgia",15), size=(33, 1)), sg.InputText('', key='quantidade')],
+                [sg.Text('Data do pedido feito (DD/MM/AAAA): ', font=("Georgia",15), size=(33, 1)), sg.InputText('', key='data')],
+                [sg.Text('Valor do frete do pedido: ', font=("Georgia",15), size=(33, 1)), sg.InputText('', key='valor_frete')],
+                [sg.Text('Prazo do pedido (quantidade de dias): ', font=("Georgia",15), size=(33, 1)), sg.InputText('', key='prazo_entrega')],
                 [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
                 ]            
             self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
-
             button, values = self.open()
             if button in (None, 'Cancelar'):
                 self.close()  
                 return None
-
             cnpj = self.teste_do_cnpj(values['cnpj'])
             codigo_produto = self.teste_do_inteiro(values['codigo_produto'], "o codigo do produto")
             quantidade = self.teste_do_inteiro(values['quantidade'], "a quantidade")
             data = self.teste_da_data(values['data'])
             valor_frete = self.teste_do_float(values['valor_frete'], "o valor do frete")
             prazo_entrega = self.teste_do_inteiro(values['prazo_entrega'], "o prazo de entrega")
-
             if ((cnpj != None) and
                 (codigo_produto != None) and
                 (quantidade != None) and
@@ -186,17 +179,15 @@ class TelaPedido(MostraMensagem):
             sg.ChangeLookAndFeel('DarkRed1')
             layout = [
                 [sg.Text('-------- SELECIONAR PEDIDO ----------', font=("Georgia", 40))],
-                [sg.Text('Digite o codigo do pedido que deseja selecionar: ', font=("Georgia", 25))],
-                [sg.Text('Código:', font=("Georgia", 15), size=(15, 1)), sg.InputText('', key='codigo')],
+                [sg.Text('Digite o codigo do pedido que deseja selecionar: ', font=("Georgia", 30))],
+                [sg.Text('Código:', font=("Georgia", 25), size=(7, 1)), sg.InputText('', key='codigo')],
                 [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
             ]
             self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
-            
             button, values = self.open()
             if button in (None, 'Cancelar'):
                 self.close()  
                 return None
-
             codigo = self.teste_do_inteiro(values['codigo'], "o codigo")
             if codigo != None:
                 self.close()
