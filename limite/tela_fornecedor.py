@@ -69,16 +69,16 @@ class TelaFornecedor(MostraMensagem):
     def init_opcoes(self):
         sg.ChangeLookAndFeel('DarkRed1')
         layout = [
-        [sg.Text('-------- FORNECEDOR ----------', font=("Georgia", 40))],
-        [sg.Text('Escolha sua opção', font=("Georgia", 25))],
-        [sg.Radio('Incluir Fornecedor', "RD1", key='1', font=("Georgia",20))],
-        [sg.Radio('Alterar Fornecedor', "RD1", key='2', font=("Georgia",20))],
-        [sg.Radio('Listar Fornecedores', "RD1", key='3', font=("Georgia",20))],
-        [sg.Radio('Excluir Fornecedor', "RD1", key='4', font=("Georgia",20))],
-        [sg.Radio('Incluir Endereço', "RD1", key='5', font=("Georgia",20))],
-        [sg.Radio('Excluir Endereço', "RD1", key='6', font=("Georgia",20))],
-        [sg.Radio('Retornar', "RD1", key='0', font=("Georgia",20))],
-        [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+            [sg.Text('-------- FORNECEDOR ----------', font=("Georgia", 40))],
+            [sg.Text('Escolha sua opção', font=("Georgia", 25))],
+            [sg.Radio('Incluir Fornecedor', "RD1", key='1', font=("Georgia",20))],
+            [sg.Radio('Alterar Fornecedor', "RD1", key='2', font=("Georgia",20))],
+            [sg.Radio('Listar Fornecedores', "RD1", key='3', font=("Georgia",20))],
+            [sg.Radio('Excluir Fornecedor', "RD1", key='4', font=("Georgia",20))],
+            [sg.Radio('Incluir Endereço', "RD1", key='5', font=("Georgia",20))],
+            [sg.Radio('Excluir Endereço', "RD1", key='6', font=("Georgia",20))],
+            [sg.Radio('Retornar', "RD1", key='0', font=("Georgia",20))],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
         ]
         self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
 
@@ -86,7 +86,7 @@ class TelaFornecedor(MostraMensagem):
         while True:
             sg.ChangeLookAndFeel('DarkRed1')
             layout = [
-                [sg.Text('-------- DADOS FORNECEDOR ----------', font=("Georgia", 25))],
+                [sg.Text('-------- DADOS PARA INCLUIR FORNECEDOR ----------', font=("Georgia", 25))],
                 [sg.Text('Nome/Razão Social: ', font=("Georgia", 15), size=(20, 1)), sg.InputText('', key='nome')],
                 [sg.Text('CNPJ (sem pontos): ', font=("Georgia", 15), size=(20, 1)), sg.InputText('', key='cnpj')],
                 [sg.Text('Celular: ', font=("Georgia", 15), size=(20, 1)), sg.InputText('', key='celular')],
@@ -95,31 +95,32 @@ class TelaFornecedor(MostraMensagem):
                 [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
             ]            
             self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
-
             button, values = self.open()
             if button in (None, 'Cancelar'):
                 self.close()  
                 return None
-
             nome = values['nome']
             cnpj = self.teste_do_cnpj(values['cnpj'])
             celular = self.teste_do_inteiro(values['celular'], "o numero de celular")
             produto = self.teste_do_inteiro(values['produto'], "o produto")
             preco = self.teste_do_float(values['preco'], "o preco")
-
             if ((cnpj != None) and
                 (celular != None) and
                 (produto != None) and
                 (preco != None)):
                 self.close()
-                return {"nome": nome, "cnpj": cnpj, "celular": celular, "produto": produto, "preco": preco}
+                return {"nome": nome,
+                        "cnpj": cnpj,
+                        "celular": celular,
+                        "produto": produto,
+                        "preco": preco}
             self.close()
 
     def altera_fornecedor(self):
         while True:
             sg.ChangeLookAndFeel('DarkRed1')
             layout = [
-                [sg.Text('-------- DADOS FORNECEDOR ----------', font=("Georgia", 25))],
+                [sg.Text('-------- DADOS PARA ALTERAR FORNECEDOR ----------', font=("Georgia", 25))],
                 [sg.Text('Nome/Razão Social: ', font=("Georgia", 15), size=(20, 1)), sg.InputText('', key='nome')],
                 [sg.Text('Celular: ', font=("Georgia", 15), size=(20, 1)), sg.InputText('', key='celular')],
                 [sg.Text('Código do produto: ', font=("Georgia", 15), size=(20, 1)), sg.InputText('', key='produto')],
@@ -127,27 +128,26 @@ class TelaFornecedor(MostraMensagem):
                 [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
             ]            
             self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
-
             button, values = self.open()
             if button in (None, 'Cancelar'):
                 self.close()  
                 return None
-
             nome = values['nome']
             celular = self.teste_do_inteiro(values['celular'], "o numero de celular")
             produto = self.teste_do_inteiro(values['produto'], "o produto")
             preco = self.teste_do_float(values['preco'], "o preco")
-
             if ((celular != None) and
                 (produto != None) and
                 (preco != None)):
                 self.close()
-                return {"nome": nome, "celular": celular, "produto": produto, "preco": preco}
+                return {"nome": nome,
+                        "celular": celular,
+                        "produto": produto,
+                        "preco": preco}
             self.close()
 
     def mostra_fornecedor(self, dados_fornecedor):
         string_todos_fornecedores = ""
-        
         for dado in dados_fornecedor:
             string_todos_fornecedores += "NOME DO FORNECEDOR: " + str(dado["nome"]) + '\n'
             string_todos_fornecedores += "CNPJ DO FORNECEDOR: " + str(dado["cnpj"]) + '\n'
@@ -155,7 +155,6 @@ class TelaFornecedor(MostraMensagem):
             string_todos_fornecedores += "NOME DO PRODUTO: " + str(dado["produto"]) + '\n'
             string_todos_fornecedores += "CODIGO DO PRODUTO: " + str(dado["produto_codigo"]) + '\n'
             string_todos_fornecedores += "PRECO DO FORNECEDOR: " + str(dado["preco"]) + '\n'
-            
             if dado["enderecos"]:
                 string_todos_fornecedores += "ENDEREÇOS:" + '\n'
                 for endereco in dado["enderecos"]:
@@ -168,53 +167,46 @@ class TelaFornecedor(MostraMensagem):
         sg.Popup('-------- LISTA DE FORNECEDORES ----------', string_todos_fornecedores)
 
     def pega_dados_endereco(self):
-            while True:
-                sg.ChangeLookAndFeel('DarkRed1')
-                layout = [
-                    [sg.Text('-------- DADOS ENDERECO ----------', font=("Georgia", 25))],
-                    [sg.Text('CEP (só numeros): ', font=("Georgia", 15), size=(15, 1)), sg.InputText('', key='cep')],
-                    [sg.Text('Rua: ', font=("Georgia", 15), size=(15, 1)), sg.InputText('', key='rua')],
-                    [sg.Text('Número: ', font=("Georgia", 15), size=(15, 1)), sg.InputText('', key='numero')],
-                    [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
-                ]            
-                self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
-
-                button, values = self.open()
-                if button in (None, 'Cancelar'):
-                    self.close()  
-                    return None
-
-                cep = self.teste_do_cep(values['cep'])
-                rua = str(values['rua'])
-                numero = self.teste_do_inteiro(values['numero'], "o numero")
-
-                if ((cep != None) and
-                    (rua != None) and
-                    (numero != None)):
-                    self.close()
-                    return {
-                        "cep": cep,
-                        "rua": rua,
-                        "numero": numero,
-                    }
+        while True:
+            sg.ChangeLookAndFeel('DarkRed1')
+            layout = [
+                [sg.Text('-------- DADOS PARA INCLUIR ENDERECO ----------', font=("Georgia", 25))],
+                [sg.Text('CEP (só numeros): ', font=("Georgia", 15), size=(15, 1)), sg.InputText('', key='cep')],
+                [sg.Text('Rua: ', font=("Georgia", 15), size=(15, 1)), sg.InputText('', key='rua')],
+                [sg.Text('Número: ', font=("Georgia", 15), size=(15, 1)), sg.InputText('', key='numero')],
+                [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+            ]            
+            self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
+            button, values = self.open()
+            if button in (None, 'Cancelar'):
+                self.close()  
+                return None
+            cep = self.teste_do_cep(values['cep'])
+            rua = str(values['rua'])
+            numero = self.teste_do_inteiro(values['numero'], "o numero")
+            if ((cep != None) and
+                (rua != None) and
+                (numero != None)):
                 self.close()
+                return {"cep": cep,
+                        "rua": rua,
+                        "numero": numero}
+            self.close()
 
     def seleciona_fornecedor(self):
         while True:
             sg.ChangeLookAndFeel('DarkRed1')
             layout = [
-                [sg.Text('-------- SELECIONAR FORNECEDOR ----------', font=("Georgia", 25))],
+                [sg.Text('-------- DADOS DO FORNECEDOR PARA SELECIONAR ----------', font=("Georgia", 25))],
                 [sg.Text('Digite o CNPJ que deseja selecionar: ', font=("Georgia", 20))],
                 [sg.Text('CNPJ:', font=("Georgia", 15), size=(15, 1)), sg.InputText('', key='cnpj')],
                 [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
             ]
             self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
-
             button, values = self.open()
             if button in (None, 'Cancelar'):
                 self.close()  
                 return None
-
             cnpj = self.teste_do_cnpj(values['cnpj'])
             if cnpj != None:
                 self.close()
@@ -231,12 +223,10 @@ class TelaFornecedor(MostraMensagem):
                 [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
             ]
             self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
-
             button, values = self.open()
             if button in (None, 'Cancelar'):
                 self.close()  
                 return None
-
             cep = self.teste_do_cep(values['cep'])
             if cep != None:
                 self.close()

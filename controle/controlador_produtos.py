@@ -25,9 +25,9 @@ class ControladorProdutos():
         try:
             if i is None:
                 produto = Produto(dados_produto["nome"], 
-                                int(dados_produto["codigo_produto"]),
-                                float(dados_produto["preco_venda"]),
-                                int(dados_produto["quant_estoque"]))
+                                  int(dados_produto["codigo_produto"]),
+                                  float(dados_produto["preco_venda"]),
+                                  int(dados_produto["quant_estoque"]))
                 self.__produto_DAO.add(produto)
                 self.__tela_produto.mostra_mensagem("Produto incluído com sucesso!")
             else:
@@ -91,9 +91,9 @@ class ControladorProdutos():
             dados_produto = []
             for produto in self.__produto_DAO.get_all():
                 dado = {"nome": produto.nome,
-                         "codigo_produto": produto.codigo_produto,
-                         "preco_venda": produto.preco_venda,
-                         "quant_estoque": produto.quant_estoque}
+                        "codigo_produto": produto.codigo_produto,
+                        "preco_venda": produto.preco_venda,
+                        "quant_estoque": produto.quant_estoque}
                 dados_produto.append(dado)
 
             self.__tela_produto.mostra_produto(dados_produto)
@@ -129,7 +129,6 @@ class ControladorProdutos():
                         4: self.lista_produtos,
                         5: self.excluir_produto,
                         0: self.retornar}
-
         while True:
             opcao_escolhida = self.__tela_produto.tela_opcoes()
             if opcao_escolhida in lista_opcoes:

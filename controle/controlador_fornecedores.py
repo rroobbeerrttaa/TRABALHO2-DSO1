@@ -5,6 +5,7 @@ from excessoes.encontrado_na_lista_exception import EncontradoNaListaException
 from excessoes.nao_encontrado_na_lista_exception import NaoEncontradoNaListaException
 from DAOs.fornecedor_dao import FornecedorDAO
 
+
 class ControladorFornecedores:
     def __init__(self, controlador_sistema):
         self.__fornecedor_DAO = FornecedorDAO()
@@ -94,7 +95,7 @@ class ControladorFornecedores:
                 for endereco in fornecedor.enderecos:
                     if int(endereco.cep) == int(cep_novo): 
                         cep_existente = True
-                        break  
+                        break
                 if cep_existente:
                     raise EncontradoNaListaException()
                 fornecedor.incluir_endereco(
@@ -102,7 +103,6 @@ class ControladorFornecedores:
                     str(dados_endereco["rua"]),
                     int(dados_endereco["numero"]))
                 self.__fornecedor_DAO.update(fornecedor)
-          
                 self.__tela_fornecedor.mostra_mensagem("Endereço adicionado com sucesso!")
         except Exception as e:
             self.__tela_fornecedor.mostra_mensagem(e)
@@ -115,25 +115,18 @@ class ControladorFornecedores:
         else:
             dados_fornecedor = [] 
             for fornecedor in self.__fornecedor_DAO.get_all():
-                dado = {
-                    "nome": fornecedor.nome,
-                    "cnpj": fornecedor.numero,
-                    "celular": fornecedor.celular,
-                    "produto": fornecedor.produto.nome,
-                    "produto_codigo": fornecedor.produto.codigo_produto,
-                    "preco": fornecedor.preco,
-                    "enderecos": [] 
-                }
-
+                dado = {"nome": fornecedor.nome,
+                        "cnpj": fornecedor.numero,
+                        "celular": fornecedor.celular,
+                        "produto": fornecedor.produto.nome,
+                        "produto_codigo": fornecedor.produto.codigo_produto,
+                        "preco": fornecedor.preco,
+                        "enderecos": []}
                 for endereco in fornecedor.enderecos:
-                    dado["enderecos"].append({
-                        "cep": endereco.cep,
-                        "rua": endereco.rua,
-                        "numero": endereco.numero
-                    })
-
+                    dado["enderecos"].append({"cep": endereco.cep,
+                                              "rua": endereco.rua,
+                                              "numero": endereco.numero})
                 dados_fornecedor.append(dado)
-
             self.__tela_fornecedor.mostra_fornecedor(dados_fornecedor)
 
     def excluir_fornecedor(self):
@@ -197,7 +190,6 @@ class ControladorFornecedores:
             6: self.excluir_endereco,
             0: self.retornar
         }
-
         while True:
             opcao_escolhida = self.__tela_fornecedor.tela_opcoes()
             if opcao_escolhida in lista_opcoes:

@@ -3,7 +3,7 @@ from entidade.pedido import Pedido
 from excessoes.encontrado_na_lista_exception import EncontradoNaListaException
 from excessoes.nao_encontrado_na_lista_exception import NaoEncontradoNaListaException
 from DAOs.pedido_dao import PedidoDAO
-from DAOs.produto_dao import ProdutoDAO
+
 
 class ControladorPedidos():
     def __init__(self, controlador_sistema):
@@ -151,7 +151,6 @@ class ControladorPedidos():
                         3: self.excluir_pedido,
                         4: self.alterar_pedido,
                         0: self.retornar}
-
         while True:
             opcao_escolhida = self.__tela_pedido.tela_opcoes()
             if opcao_escolhida in lista_opcoes:

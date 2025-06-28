@@ -45,15 +45,15 @@ class TelaProduto(MostraMensagem):
     def init_opcoes(self):
         sg.ChangeLookAndFeel('DarkRed1')
         layout = [
-        [sg.Text('-------- PRODUTO ----------', font=("Georgia", 40))],
-        [sg.Text('Escolha sua opção', font=("Georgia", 25))],
-        [sg.Radio('Incluir Produto', "RD1", key='1', font=("Georgia",20))],
-        [sg.Radio('Alterar Valor Do Produto', "RD1", key='2', font=("Georgia",20))],
-        [sg.Radio('Alterar Quantidade De Estoque Do Produto', "RD1", key='3', font=("Georgia",20))],
-        [sg.Radio('Listar Produto', "RD1", key='4', font=("Georgia",20))],
-        [sg.Radio('Excluir Produto', "RD1", key='5', font=("Georgia",20))],
-        [sg.Radio('Retornar', "RD1", key='0', font=("Georgia",20))],
-        [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+            [sg.Text('-------- PRODUTO ----------', font=("Georgia", 40))],
+            [sg.Text('Escolha sua opção', font=("Georgia", 25))],
+            [sg.Radio('Incluir Produto', "RD1", key='1', font=("Georgia",20))],
+            [sg.Radio('Alterar Valor Do Produto', "RD1", key='2', font=("Georgia",20))],
+            [sg.Radio('Alterar Quantidade De Estoque Do Produto', "RD1", key='3', font=("Georgia",20))],
+            [sg.Radio('Listar Produto', "RD1", key='4', font=("Georgia",20))],
+            [sg.Radio('Excluir Produto', "RD1", key='5', font=("Georgia",20))],
+            [sg.Radio('Retornar', "RD1", key='0', font=("Georgia",20))],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
         ]
         self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
 
@@ -69,17 +69,14 @@ class TelaProduto(MostraMensagem):
                 [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
             ]
             self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
-        
             button, values = self.open()
             if button in (None, 'Cancelar'):
                 self.close()  
                 return None
-            
             nome = values['nome']
             codigo_produto = self.teste_do_inteiro(values['codigo_produto'], 'o codigo do produto')
             preco_venda = self.teste_do_float(values['preco_venda'], 'o preço de venda')
             quant_estoque = self.teste_do_inteiro(values['quant_estoque'], 'a quantidade de estoque')
-
             if ((nome != None) and 
                 (codigo_produto != None) and
                 (preco_venda != None) and 
@@ -99,30 +96,24 @@ class TelaProduto(MostraMensagem):
                 [sg.Text('Preço venda / Quantidade a mais no estoque: ', font=("Georgia", 15), size=(34, 1)), sg.InputText('', key='valor')],
                 [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
             ]            
-
             self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
-            
             button, values = self.open()
             if button in (None, 'Cancelar'):
                 self.close()
                 return None
-
             valor = self.teste_do_float(values['valor'], 'o valor')
             if valor is not None:
                 self.close()
                 return valor
             self.close()
 
-
     def mostra_produto(self, dados_produto):
         string_todos_produtos = "-------- LISTA DE PRODUTOS ----------" + '\n\n' 
-        
         for dado in dados_produto:
             string_todos_produtos += "NOME DO PRODUTO: " + str(dado["nome"]) + '\n'
             string_todos_produtos += "CODIGO DO PRODUTO: " + str(dado["codigo_produto"]) + '\n'
             string_todos_produtos += "PRECO DO PRODUTO: R$" + str(dado["preco_venda"]) + '\n'
             string_todos_produtos += "QUANTIDADE NO ESTOQUE DO PRODUTO: " + str(dado["quant_estoque"]) + '\n\n'
-
         sg.Popup("", string_todos_produtos)
 
     def seleciona_produto(self):
@@ -135,12 +126,10 @@ class TelaProduto(MostraMensagem):
                 [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
             ]
             self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
-            
             button, values = self.open()
             if button in (None, 'Cancelar'):
                 self.close()  
                 return None
-
             codigo = self.teste_do_inteiro(values['codigo'], 'o codigo')
             if codigo != None:
                 self.close()

@@ -88,7 +88,7 @@ class TelaPedido(MostraMensagem):
                 [sg.Text('Valor do frete do pedido: ', font=("Georgia",15), size=(33, 1)), sg.InputText('', key='valor_frete')],
                 [sg.Text('Prazo do pedido (quantidade de dias): ', font=("Georgia",15), size=(33, 1)), sg.InputText('', key='prazo_entrega')],
                 [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
-                ]            
+            ]            
             self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
             button, values = self.open()
             if button in (None, 'Cancelar'):
@@ -115,8 +115,7 @@ class TelaPedido(MostraMensagem):
                         "quantidade": quantidade,
                         "data": data,
                         "valor_frete": valor_frete,
-                        "prazo_entrega": prazo_entrega,
-                        }
+                        "prazo_entrega": prazo_entrega}
             self.close()
 
     def altera_dados_pedidos(self):
@@ -131,7 +130,7 @@ class TelaPedido(MostraMensagem):
                 [sg.Text('Valor do frete do pedido: ', font=("Georgia",15), size=(33, 1)), sg.InputText('', key='valor_frete')],
                 [sg.Text('Prazo do pedido (quantidade de dias): ', font=("Georgia",15), size=(33, 1)), sg.InputText('', key='prazo_entrega')],
                 [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
-                ]            
+            ]            
             self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
             button, values = self.open()
             if button in (None, 'Cancelar'):
@@ -155,14 +154,11 @@ class TelaPedido(MostraMensagem):
                         "quantidade": quantidade,
                         "data": data,
                         "valor_frete": valor_frete,
-                        "prazo_entrega": prazo_entrega,
-                        }
+                        "prazo_entrega": prazo_entrega}
             self.close()
-    
 
     def mostra_pedidos(self, dados_pedidos):
         string_todos_pedidos = ""
-        
         for dado in dados_pedidos:
             string_todos_pedidos += "CODIGO DO PEDIDO: " + str(dado["codigo"]) + '\n'
             string_todos_pedidos += "QUANTIDADE DO PEDIDO: " + str(dado["quantidade"]) + '\n'
