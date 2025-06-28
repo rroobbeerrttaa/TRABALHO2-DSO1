@@ -116,6 +116,9 @@ class ControladorProdutos():
         except Exception as e:
             self.__tela_produto.mostra_mensagem(e)
 
+    def atualizar_produto(self, produto):
+        self.__produto_DAO.update(produto)
+
     def retornar(self):
         self.__controlador_sistema.abre_tela()
 

@@ -8,7 +8,6 @@ from DAOs.produto_dao import ProdutoDAO
 class ControladorPedidos():
     def __init__(self, controlador_sistema):
         self.__pedido_DAO = PedidoDAO()
-        self.__produtos_DAO = ProdutoDAO()
         self.__controlador_sistema = controlador_sistema
         self.__tela_pedido = TelaPedido()
 
@@ -42,8 +41,8 @@ class ControladorPedidos():
                                         dados_pedido["prazo_entrega"])
                         self.__pedido_DAO.add(pedido)  
                         objeto_produto.quant_estoque = int(objeto_produto.quant_estoque) + int(dados_pedido["quantidade"])
-                        self.__produtos_DAO.update(objeto_produto)
-                        self.__tela_pedido.mostra_mensagem("Adicionado com sucesso!")
+                        self.__controlador_sistema.controlador_produtos.atualizar_produto(objeto_produto)
+                        self.__tela_pedido.mostra_mensagem("Pedido adicionado com sucesso!")
                     else:
                         raise NaoEncontradoNaListaException("produto")
                 else:
@@ -87,8 +86,8 @@ class ControladorPedidos():
                             pedido.prazo_entrega = int(novos_dados["prazo_entrega"])
                             novo_produto.quant_estoque += int(novos_dados["quantidade"])
                             self.__pedido_DAO.update(pedido)
-                            self.__produtos_DAO.update(produto_antigo)
-                            self.__produtos_DAO.update(novo_produto)
+                            self.__controlador_sistema.controlador_produtos.atualizar_produto(produto_antigo)
+                            self.__controlador_sistema.controlador_produtos.atualizar_produto(novo_produto)
                             self.__tela_pedido.mostra_mensagem("Pedido alterado com sucesso!")
                         else:
                             raise NaoEncontradoNaListaException("produto")
@@ -128,11 +127,14 @@ class ControladorPedidos():
             try:
                 if pedido is not None:
                     objeto_produto = self.__controlador_sistema.controlador_produtos.pega_produto_por_codigo(pedido.produto.codigo_produto)
-                    objeto_produto.quant_estoque = int(objeto_produto.quant_estoque) - int(pedido.quantidade)
-                    self.__pedido_DAO.remove(codigo_pedido)
-                    self.__pedido_DAO.update(pedido)
-                    self.__produtos_DAO.update(objeto_produto)
-                    self.__tela_pedido.mostra_mensagem("Pedido removido com sucesso!")
+                    if objeto_produto == None:
+                        self.__pedido_DAO.remove(codigo_pedido)
+                    else:
+                        objeto_produto.quant_estoque = int(objeto_produto.quant_estoque) - int(pedido.quantidade)
+                        self.__pedido_DAO.remove(codigo_pedido)
+                        self.__pedido_DAO.update(pedido)
+                        self.__controlador_sistema.controlador_produtos.atualizar_produto(objeto_produto)
+                        self.__tela_pedido.mostra_mensagem("Pedido removido com sucesso!")
                 else:
                     raise NaoEncontradoNaListaException("pedido")
             except Exception as e:
