@@ -135,3 +135,7 @@ class ControladorProdutos():
                 lista_opcoes[opcao_escolhida]()
             else:
                 self.__tela_produto.mostra_mensagem("Opção inválida, escolha novamente\nA possivél causa é a a confirmação sem ter selecionado nada.")
+
+    #precisei incluir esse método para conseguir fazer o relatório
+    def get_all_produtos(self):
+        return self.__produto_DAO.get_all()

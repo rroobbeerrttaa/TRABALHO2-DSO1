@@ -1,93 +1,152 @@
 from datetime import datetime
-from teste.teste_numero_opcoes import TesteNumeroOpcoes
+from mostra.mostra_mensagem import MostraMensagem
+import PySimpleGUI as sg
 
-class TelaVenda(TesteNumeroOpcoes):
+class TelaVenda(MostraMensagem):
 
     def __init__(self):
-        pass
+        self.__window = None
+        self.init_opcoes()
 
-    def teste_do_float(self, mensagem=" "):
-            while True:
-                valor_recebido = input(mensagem)
-                try:
-                    valor_recebido_tipo = float(valor_recebido)
-                    return valor_recebido_tipo
-                except ValueError:
-                    print("Por favor, escreva somente com números.")
+    def open(self):
+        button, values = self.__window.Read()
+        return button, values
+
+    def teste_do_float(self, valor_recebido, propriedade=" "):
+        try:
+            valor = float(valor_recebido)
+            return valor
+        except ValueError:
+            self.mostra_mensagem(f"Por favor, escreva {propriedade} somente com números. \nExemplo: 1.42")
+            return None
 
 
-    def teste_do_inteiro(self, mensagem=" "):
-            while True:
-                valor_recebido = input(mensagem)
-                try:
-                    valor_recebido_tipo = int(valor_recebido)
-                    return valor_recebido_tipo
-                except ValueError:
-                    print("Por favor, escreva somente com números inteiros. Exemplo: 1234")
+    def teste_do_inteiro(self, valor_recebido, propriedade = " "):
+        try:
+            valor = int(valor_recebido)
+            return valor
+        except ValueError:
+            self.mostra_mensagem(f"Por favor, escreva {propriedade} somente com numeros inteiros positivos. Exemplo 134 (erro na digitação)")
+            return None
     
-    def teste_do_cpf(self, mensagem=" "):
+    def teste_do_cpf(self, valor_recebido):
         while True:
-            valor_recebido = input(mensagem)
             try:
                 if len(valor_recebido) == 11:
                     return valor_recebido
                 else:
                     raise ValueError
             except ValueError:
-                print("Por favor, escreva somente com números inteiros e 11 digitos. Exemplo: 12345678901")
+                self.mostra_mensagem("Por favor, escreva o CPF somente com números (11 dígitos).\nExemplo: 1234567890")
+                return None
+    
+    def teste_da_data(self, data):
+        try:
+            data_recebida = datetime.strptime(data, "%d/%m/%Y")  
+            return data_recebida
+        except ValueError:
+            self.mostra_mensagem("Data inválida. Insira a data no formato (DD/MM/AAAA) (erro na digitacao).")
+            return None
 
     def tela_opcoes(self):
-        print("-------- VENDAS ----------")
-        print()
-        print("1 - Fazer Venda")
-        print("2 - Listar Venda")
-        print("3 - Excluir Venda")
-        print("0 - Retornar\n")
-
-        opcao = self.teste_numero_opcoes("Escolha a opção: ", [0, 1, 2, 3])
-        print()
+        self.init_opcoes()
+        button, values = self.open()
+        opcao = 9
+        if values['1']:
+            opcao = 1
+        if values['2']:
+            opcao = 2
+        if values['3']:
+            opcao = 3
+        if values['0'] or button in (None, 'Cancelar'):
+            opcao = 0
+        self.close()
         return opcao
 
+    def init_opcoes(self):
+        sg.ChangeLookAndFeel('DarkRed1')
+        layout = [
+            [sg.Text('-------- VENDAS ----------', font=("Georgia", 40))],
+            [sg.Text('Escolha sua opção', font=("Georgia", 25))],
+            [sg.Radio('Fazer Venda', "RD1", key='1', font=("Georgia",20))],
+            [sg.Radio('Listar Vendas', "RD1", key='2', font=("Georgia",20))],
+            [sg.Radio('Excluir Venda', "RD1", key='3', font=("Georgia",20))],
+            [sg.Radio('Retornar', "RD1", key='0', font=("Georgia",20))],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
+
     def pega_dados_venda(self):
-        print("-------- DADOS VENDA ----------")
-        print()
-        cpf_vendedor = self.teste_do_cpf("CPF do vendedor: ")
-        cpf_cliente = self.teste_do_cpf("CPF do cliente: ")
-        codigo_produto = self.teste_do_inteiro("Código do produto: ")
-        quantidade = self.teste_do_inteiro("Quantidade vendida: ")
-        codigo = self.teste_do_inteiro("Código da venda: ")
+       while True:
+            sg.ChangeLookAndFeel('DarkRed1')
+            layout = [
+                [sg.Text('-------- DADOS VENDA ----------', font=("Georgia", 25))],
+                [sg.Text('CPF do vendedor: ', font=("Georgia", 15), size=(20, 1)), sg.InputText('', key='cpf_vendedor')],
+                [sg.Text('CPF do cliente: ', font=("Georgia", 15), size=(20, 1)), sg.InputText('', key='cpf_cliente')],
+                [sg.Text('Código do produto: ', font=("Georgia", 15), size=(20, 1)), sg.InputText('', key='codigo_produto')],
+                [sg.Text('Quantidade vendida: ', font=("Georgia", 15), size=(20, 1)), sg.InputText('', key='quantidade')],
+                [sg.Text('Código da venda: ', font=("Georgia", 15), size=(20, 1)), sg.InputText('', key='codigo')],
+                [sg.Text('Data da venda (DD/MM/AAAA): ', font=("Georgia", 15), size=(20, 1)), sg.InputText('', key='data')],
+                [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+            ]            
+            self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
+            button, values = self.open()
+            if button in (None, 'Cancelar'):
+                self.close()  
+                return None
+            
+            cpf_vendedor = self.teste_do_cpf(values['cpf_vendedor'])
+            cpf_cliente = self.teste_do_cpf(values['cpf_cliente'])
+            codigo_produto = self.teste_do_inteiro(values['codigo_produto'], "o código do produto")
+            quantidade = self.teste_do_inteiro(values['quantidade'], "a quantidade vendida")
+            codigo = self.teste_do_inteiro(values['codigo'], "o código da venda")
+            data = self.teste_da_data(values['data'])
 
-        while True:
-            data_input = input("Data da venda(DD/MM/AAAA): ")
-            print()
-            try:
-                data = datetime.strptime(data_input, "%d/%m/%Y")
-                break
-            except ValueError:
-                self.mostra_mensagem("Formato de data inválido: (DD/MM/AAAA)")
-
-        return {"cpf_vendedor": cpf_vendedor, 
-                "cpf_cliente":cpf_cliente,
-                "quantidade": quantidade,
-                "data": data,
-                "codigo_produto": codigo_produto,
-                "codigo": codigo}
+            if cpf_vendedor and cpf_cliente and codigo_produto and quantidade and codigo and data:
+                self.close()
+                return {"cpf_vendedor": cpf_vendedor, 
+                        "cpf_cliente":cpf_cliente,
+                        "quantidade": quantidade,
+                        "data": data,
+                        "codigo_produto": codigo_produto,
+                        "codigo": codigo}
+            self.close()
 
     def mostra_venda(self, dados_venda):
-        print("CÓDIGO DA VENDA:", dados_venda["codigo"])
-        print("DATA:", dados_venda["data"])
-        print("VENDEDOR:", dados_venda["vendedor"])
-        print("CLIENTE:", dados_venda["cliente"])
-        print("NOME DO PRODUTO:", dados_venda["produto"])
-        print("QUANTIDADE:", dados_venda["quantidade"])
-        print(f"VALOR TOTAL DA VENDA: R${float(dados_venda['valor']):.2f}")     
-        print()
+        layout = [
+            [sg.Text('-------- DADOS DA VENDA ----------', font=("Georgia", 25))],
+            [sg.Text(f"CÓDIGO DA VENDA: {dados_venda['codigo']}", font=("Georgia", 15))],
+            [sg.Text(f"DATA: {dados_venda['data']}", font=("Georgia", 15))],
+            [sg.Text(f"VENDEDOR: {dados_venda['vendedor']}", font=("Georgia", 15))],
+            [sg.Text(f"CLIENTE: {dados_venda['cliente']}", font=("Georgia", 15))],
+            [sg.Text(f"NOME DO PRODUTO: {dados_venda['produto']}", font=("Georgia", 15))],
+            [sg.Text(f"QUANTIDADE: {dados_venda['quantidade']}", font=("Georgia", 15))],
+            [sg.Text(f"VALOR TOTAL DA VENDA: R${float(dados_venda['valor']):.2f}", font=("Georgia", 15))],
+            [sg.Button('OK')]
+        ]
+        window = sg.Window('Detalhes da Venda', layout)
+        window.read()
+        window.close()
 
     def seleciona_venda(self):
-        codigo = self.teste_do_inteiro("Código da venda que deseja selecionar: ")
-        print()
-        return codigo
+        while True:
+            sg.ChangeLookAndFeel('DarkRed1')
+            layout = [
+                [sg.Text('-------- SELECIONAR VENDA ----------', font=("Georgia", 25))],
+                [sg.Text('Digite o código da venda que deseja selecionar: ', font=("Georgia", 20))],
+                [sg.Text('Código:', font=("Georgia", 15), size=(15, 1)), sg.InputText('', key='codigo')],
+                [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+            ]
+            self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
+            button, values = self.open()
+            if button in (None, 'Cancelar'):
+                self.close()  
+                return None
+            codigo = self.teste_do_inteiro(values['codigo'], "o código da venda")
+            if codigo is not None:
+                self.close()
+                return codigo
+            self.close()
 
-    def mostra_mensagem(self, msg):
-        print(msg)
-        print()
+    def close(self):
+        self.__window.Close()

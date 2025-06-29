@@ -196,3 +196,6 @@ class ControladorFornecedores:
                 lista_opcoes[opcao_escolhida]()
             else:
                 self.__tela_fornecedor.mostra_mensagem("Opção inválida, escolha novamente.")
+
+    def get_all_fornecedores(self):
+        return self.__fornecedor_DAO.get_all()

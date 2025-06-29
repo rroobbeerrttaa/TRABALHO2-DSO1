@@ -156,3 +156,9 @@ class ControladorPessoas():
                 lista_opcoes[opcao_escolhida]()
             else:
                 self.__tela_pessoa.mostra_mensagem("Selecione uma opção válida.")
+    
+    def get_all_clientes(self):
+        return self.__clientes_DAO.get_all()
+
+    def get_all_vendedores(self):
+        return self.__vendedores_DAO.get_all()

@@ -126,3 +126,6 @@ class ControladorVendas():
             lista_opcoes[opcao_escolhida]()
         else:
             self.__tela_venda.mostra_mensagem("Opção inválida, digite novamente.")
+  
+  def get_all_vendas(self):
+    return self.__vendas_DAO.get_all()
