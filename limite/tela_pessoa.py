@@ -20,17 +20,15 @@ class TelaPessoa(MostraMensagem):
             self.mostra_mensagem(f"Por favor, escreva {propriedade} somente com numeros inteiros positivos. Exemplo 134 (erro na digitação)")
             return None
 
-    def teste_do_cpf(self, mensagem=" "):
+    def teste_do_cpf(self, valor_recebido):
         while True:
-            valor_recebido = input(mensagem)
             try:
-                valor_recebido_tipo = int(valor_recebido)
                 if len(valor_recebido) == 11:
                     return valor_recebido
                 else:
                     raise ValueError
             except ValueError:
-                print("Por favor, escreva somente com números de 11 digitos. Exemplo: 1234567890")
+                self.mostra_mensagem("Por favor, escreva o CPF somente com números (11 dígitos).\nExemplo: 1234567890")
                 return None
 
     def tela_opcoes(self):
@@ -74,7 +72,7 @@ class TelaPessoa(MostraMensagem):
         while True:
             sg.ChangeLookAndFeel('DarkRed1')
             layout = [
-                [sg.Text('-------- DADOS PESSOA ----------', font=("Georgia", 25))],
+                [sg.Text('-------- DADOS DA PESSOA ----------', font=("Georgia", 25))],
                 [sg.Text('Nome:', font=("Georgia", 20), size=(22,1)), sg.InputText('',key='nome')],
                 [sg.Text('CPF (somente números):', font=("Georgia", 20), size=(22,1)), sg.InputText('',key='cpf')],
                 [sg.Text('Celular (somente números):', font=("Georgia", 20), size=(22,1)), sg.InputText('',key='celular')],
@@ -90,18 +88,19 @@ class TelaPessoa(MostraMensagem):
             if button == 'Confirmar':
                 nome = values['nome']
                 cpf = self.teste_do_cpf(values['cpf'])
-                celular = self.teste_do_inteiro(values['celular'])
+                celular = self.teste_do_inteiro(values['celular'], 'o celular')
 
                 if nome and cpf and celular is not None:
+                    self.close()
                     return {"nome": nome, "cpf": cpf, "celular": celular}
                 else:
-                    self.mostra_mensagem("Por favor, preencha todos os campos corretamente.")
-            elif button in (None, 'Cancelar'):
-                return None
+                    #self.mostra_mensagem("Por favor, preencha todos os campos corretamente.")
+                    self.close()
+            
 
     def mostra_cliente(self, dados_cliente):        
         layout = [
-            [sg.Text("------CLIENTES------", font=("Georgia", 20))]
+            [sg.Text("-------- CLIENTES --------", font=("Georgia", 20))]
         ]
         for cliente in dados_cliente:
             layout += [
@@ -116,15 +115,21 @@ class TelaPessoa(MostraMensagem):
         window.close()
 
     def mostra_vendedor(self, dados_vendedor):
-        str_vendedores = "-------- VENDEDORES ----------" + '\n\n' 
-        
+        layout = [
+            [sg.Text("-------- VENDEDORES --------", font=("Georgia", 20))]
+        ]
         for vendedor in dados_vendedor:
-            str_vendedores += "NOME: " + str(vendedor["nome"]) + '\n'
-            str_vendedores += "CPF: " + str(vendedor["cpf"]) + '\n'
-            str_vendedores += "CELULAR: " + str(vendedor["celular"]) + '\n\n'
-            str_vendedores += f"VALOR TOTAL VENDIDO: R${dados_vendedor['valor_vendido_total']:.2f}" + '\n'
-
-        sg.Popup("", str_vendedores)
+            layout += [
+                [sg.Text(f"NOME: {vendedor['nome']}")],
+                [sg.Text(f"CPF: {vendedor['cpf']}")],
+                [sg.Text(f"CELULAR: {vendedor['celular']}")],
+                [sg.Text(f"VALOR TOTAL VENDIDO: R${vendedor['valor_vendido_total']:.2f}")],
+                [sg.Text("-" * 30)]
+            ]
+        layout += [[sg.Button("OK")]]
+        window = sg.Window("Lista de Clientes", layout)
+        window.read()
+        window.close()
 
     def seleciona_pessoa(self):
         while True:
@@ -142,7 +147,7 @@ class TelaPessoa(MostraMensagem):
                 self.close()  
                 return None
 
-            cpf = self.teste_do_cpf(values['codigo'], 'o CPF')
+            cpf = self.teste_do_cpf(values['codigo'])
             if cpf != None:
                 self.close()
                 return cpf

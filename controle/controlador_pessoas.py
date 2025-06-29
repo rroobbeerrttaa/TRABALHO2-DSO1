@@ -15,14 +15,6 @@ class ControladorPessoas():
         self.__tela_pessoa = TelaPessoa()
         self.__controlador_sistema = controlador_sistema
 
-    @property
-    def vendedores(self):
-        return self.__vendedores_DAO
-    
-    @property
-    def clientes(self):
-        return self.__clientes_DAO
-
     def pega_cliente_por_cpf(self, cpf: str):
         for cliente in self.__clientes_DAO.get_all():
             #print(cliente.cpf)
@@ -46,7 +38,7 @@ class ControladorPessoas():
             if self.pega_cliente_por_cpf(dados_pessoa["cpf"]) is None:
                 pessoa = Cliente(dados_pessoa["nome"],
                                 dados_pessoa["cpf"],
-                                dados_pessoa["celular"])
+                                int(dados_pessoa["celular"]))
                 self.__clientes_DAO.add(pessoa)
                 self.__tela_pessoa.mostra_mensagem("Cliente incluído com sucesso!")
             else:
@@ -81,32 +73,31 @@ class ControladorPessoas():
         
         dados_clientes = []
         for cliente in clientes:
-            dado = ({"nome": cliente.nome,
-                     "cpf": cliente.numero,
-                     "celular": cliente.celular})
+            dado = {"nome": cliente.nome,
+                    "cpf": cliente.numero,
+                    "celular": cliente.celular}
             dados_clientes.append(dado)
-        self.__tela_pessoa.mostra_clientes(dados_clientes)
+        self.__tela_pessoa.mostra_cliente(dados_clientes)
 
     def lista_vendedores(self):
         vendedores = self.__vendedores_DAO.get_all()
-        if len(len(vendedores)) == 0:
+        if len(vendedores) == 0:
             self.__tela_pessoa.mostra_mensagem("Não há vendedores cadastrados.")
             return None
 
         dados_vendedores = []
         for vendedor in vendedores:
-            dado = ({"nome": vendedor.nome,
-                     "cpf": vendedor.numero,
-                     "celular": vendedor.celular,
-                     "valor_vendido_total": vendedor.valor_vendido_total})
+            dado = {"nome": vendedor.nome,
+                    "cpf": vendedor.numero,
+                    "celular": vendedor.celular,
+                    "valor_vendido_total": vendedor.valor_vendido_total}
             dados_vendedores.append(dado)
-        self.__tela_pessoa.mostra_vendedores(dados_vendedores)
+        self.__tela_pessoa.mostra_vendedor(dados_vendedores)
 
     def excluir_cliente(self):
         self.lista_cliente()
         clientes = list(self.__clientes_DAO.get_all())
         if len(clientes) == 0:
-            self.__tela_pessoa.mostra_mensagem("Não existem clientes cadastrados")
             return None
         cpf = self.__tela_pessoa.seleciona_pessoa()
         if cpf is None:
@@ -117,7 +108,7 @@ class ControladorPessoas():
                 self.__clientes_DAO.remove(cliente.numero)
                 self.__tela_pessoa.mostra_mensagem("Cliente excluído com sucesso!")
                 if len(clientes) != 0:
-                    self.__tela_pessoa.mostra_mensagem("Clientes restantes:")
+                    #self.__tela_pessoa.mostra_mensagem("Clientes restantes:")
                     self.lista_cliente()
             else:
                 raise NaoEncontradoNaListaException("cliente")
@@ -125,13 +116,12 @@ class ControladorPessoas():
             self.__tela_pessoa.mostra_mensagem(e)
 
     def excluir_vendedor(self):
+        self.lista_vendedores()
         vendedores = list(self.__vendedores_DAO.get_all())
         try:
             if len(vendedores) == 0:
-                self.__tela_pessoa.mostra_mensagem("Não existem vendedores cadastrados")
                 return None
             else:
-                self.lista_vendedores()
                 cpf = self.__tela_pessoa.seleciona_pessoa()
                 if cpf is None:
                     return None
@@ -141,7 +131,7 @@ class ControladorPessoas():
                     self.__vendedores_DAO.remove(vendedor.numero)
                     self.__tela_pessoa.mostra_mensagem("Vendedor excluído com sucesso!")
                     if len(vendedores) != 0:
-                        self.__tela_pessoa.mostra_mensagem("Vendedores restantes:")
+                        #self.__tela_pessoa.mostra_mensagem("Vendedores restantes:")
                         self.lista_vendedores()
                 else:
                     raise NaoEncontradoNaListaException("vendedor")
@@ -165,4 +155,4 @@ class ControladorPessoas():
             if opcao_escolhida in lista_opcoes:
                 lista_opcoes[opcao_escolhida]()
             else:
-                self.__tela_pessoa.mostra_mensagem("Opção inválida, digite novamente.")
+                self.__tela_pessoa.mostra_mensagem("Selecione uma opção válida.")
