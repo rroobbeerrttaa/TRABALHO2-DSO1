@@ -114,16 +114,19 @@ class TelaVenda(MostraMensagem):
 
     def mostra_venda(self, dados_venda):
         layout = [
-            [sg.Text('-------- DADOS DA VENDA ----------', font=("Georgia", 25))],
-            [sg.Text(f"CÓDIGO DA VENDA: {dados_venda['codigo']}", font=("Georgia", 15))],
-            [sg.Text(f"DATA: {dados_venda['data']}", font=("Georgia", 15))],
-            [sg.Text(f"VENDEDOR: {dados_venda['vendedor']}", font=("Georgia", 15))],
-            [sg.Text(f"CLIENTE: {dados_venda['cliente']}", font=("Georgia", 15))],
-            [sg.Text(f"NOME DO PRODUTO: {dados_venda['produto']}", font=("Georgia", 15))],
-            [sg.Text(f"QUANTIDADE: {dados_venda['quantidade']}", font=("Georgia", 15))],
-            [sg.Text(f"VALOR TOTAL DA VENDA: R${float(dados_venda['valor']):.2f}", font=("Georgia", 15))],
-            [sg.Button('OK')]
-        ]
+            [sg.Text('-------- DADOS DA VENDA ----------', font=("Georgia", 15))]]
+        for venda in dados_venda:
+            layout += [
+                [sg.Text(f"CÓDIGO DA VENDA: {venda['codigo']}", font=("Georgia", 10))],
+                [sg.Text(f"DATA: {venda['data']}", font=("Georgia", 10))],
+                [sg.Text(f"VENDEDOR: {venda['vendedor']}", font=("Georgia", 10))],
+                [sg.Text(f"CLIENTE: {venda['cliente']}", font=("Georgia", 10))],
+                [sg.Text(f"NOME DO PRODUTO: {venda['produto']}", font=("Georgia", 10))],
+                [sg.Text(f"QUANTIDADE: {venda['quantidade']}", font=("Georgia", 10))],
+                [sg.Text(f"VALOR TOTAL DA VENDA: R${float(venda['valor']):.2f}", font=("Georgia", 10))],
+                [sg.Text('-' * 30, font=("Georgia", 10))]
+            ]
+        layout += [[sg.Button('OK')]]
         window = sg.Window('Detalhes da Venda', layout)
         window.read()
         window.close()

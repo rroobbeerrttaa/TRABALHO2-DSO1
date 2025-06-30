@@ -59,13 +59,17 @@ class TelaRelatorios(MostraMensagem):
 
     def mostra_analise_produtos_vendidos(self, dados_analise):
         layout = [
-            [sg.Text('------ ANÁLISE DE PRODUTOS MAIS VENDIDOS ------', font=("Georgia", 20))],
-            [sg.Text(f"PRODUTO: {dados_analise['nome']}", font=("Georgia", 15))],
-            [sg.Text(f"CÓDIGO: {dados_analise['codigo_produto']}", font=("Georgia", 15))],
-            [sg.Text(f"QUANT TOTAL VENDIDA: {dados_analise['quantidade_total_vendida']}", font=("Georgia", 15))],
-            [sg.Text(f"VALOR TOTAL VENDIDO: R${dados_analise['valor_total_vendido']:.2f}", font=("Georgia", 15))],
-            [sg.Button('OK')]
+            [sg.Text('------ ANÁLISE DE PRODUTOS MAIS VENDIDOS ------', font=("Georgia", 20))]]
+        for produto in dados_analise:
+            layout += [
+            [sg.Text(f"{dados_analise.index(produto) + 1}º lugar", font=("Georgia", 15))],
+            [sg.Text(f"PRODUTO: {produto['nome']}", font=("Georgia", 15))],
+            [sg.Text(f"CÓDIGO: {produto['codigo_produto']}", font=("Georgia", 15))],
+            [sg.Text(f"QUANT TOTAL VENDIDA: {produto['quantidade_total_vendida']}", font=("Georgia", 15))],
+            [sg.Text(f"VALOR TOTAL VENDIDO: R${produto['valor_total_vendido']:.2f}", font=("Georgia", 15))],
+            [sg.Text('-'*30, font=("Georgia", 15))]
         ]
+        layout.append([sg.Button('OK')])
         window = sg.Window('Análise de Produtos Vendidos', layout)
         window.read()
         window.close()

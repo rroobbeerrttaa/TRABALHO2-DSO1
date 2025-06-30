@@ -66,9 +66,7 @@ class ControladorRelatorios():
             self.__tela_relatorios.mostra_mensagem("Nenhum produto foi vendido.")
             return None
         
-        for produto_dados in lista_ordenada:
-            self.__tela_relatorios.mostra_mensagem(f"{lista_ordenada.index(produto_dados)+1}º lugar")
-            self.__tela_relatorios.mostra_analise_produtos_vendidos(produto_dados)
+        self.__tela_relatorios.mostra_analise_produtos_vendidos(lista_ordenada)
 
     def relatorio_vendas_por_vendedor(self):
         vendedores = self.__controlador_sistema.controlador_pessoas.get_all_vendedores() # Acessa a lista de vendedores

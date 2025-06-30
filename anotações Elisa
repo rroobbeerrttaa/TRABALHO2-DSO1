@@ -27,7 +27,9 @@ relatorio e vendas:
 relatório:
     cada um com uma janela, precisa fazer igual listar clientes
     l 69 na análise de produtos mais vendidos, o 1º lugar está indo fora da janela
-    rentabilidade do produto tá dando ruim (preço de compra está multiplicando pela quantidade comprada)
 
 vendas:
     op listar vendas não está mostrando nada
+
+
+TENTAR DEIXAR INFOS DOS CLIENTES NA TELA SEM FECHAR

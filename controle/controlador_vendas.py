@@ -11,10 +11,6 @@ class ControladorVendas():
     self.__vendas_DAO = VendaDAO()
     self.__tela_venda = TelaVenda()
 
-  @property
-  def vendas(self):
-    return self.__vendas_DAO
-
   def pega_venda_por_codigo(self, codigo: int):
     for venda in self.__vendas_DAO.get_all():
       if venda.codigo == int(codigo):
@@ -69,47 +65,50 @@ class ControladorVendas():
 
   def lista_venda(self):
     vendas = list(self.__vendas_DAO.get_all()) #transformar get all em lista
-    print(vendas)
-    if not vendas:
+    if len(vendas) == 0:
       self.__tela_venda.mostra_mensagem("Sem vendas cadastradas.")
-      return
-
-    self.__tela_venda.mostra_mensagem("-------- VENDAS CADASTRADAS --------")
-    for venda in vendas:
-      self.__tela_venda.mostra_venda({"codigo": venda.codigo,
-                                      "vendedor": venda.vendedor.nome,
-                                      "cliente": venda.cliente.nome,
-                                      "produto": venda.produto.nome,
-                                      "quantidade": venda.quantidade,
-                                      "data": venda.data.strftime("%d/%m/%Y"),
-                                      "valor": venda.valor})
+      return None
+    dados_vendas = []
+    for venda in vendas:  #venda é um objeto Venda
+      dado = {"codigo": venda.codigo,
+              "vendedor": venda.vendedor.nome,
+              "cliente": venda.cliente.nome,
+              "produto": venda.produto.nome,
+              "quantidade": venda.quantidade,
+              "data": venda.data.strftime("%d/%m/%Y"),
+              "valor": venda.valor}
+      dados_vendas.append(dado)
+    self.__tela_venda.mostra_venda(dados_vendas)
     
   def excluir_venda(self):
     self.lista_venda()
+    vendas = list(self.__vendas_DAO.get_all())
+    if len(vendas) == 0:
+       return None
+    codigo_venda = self.__tela_venda.seleciona_venda()
+    if codigo_venda is None:
+       return None
+    venda = self.pega_venda_por_codigo(codigo_venda)
     try:
-      codigo_venda = self.__tela_venda.seleciona_venda()
-      venda = self.pega_venda_por_codigo(codigo_venda)
-
       if venda is not None:
         self.__tela_venda.mostra_mensagem("Dados da venda a ser deletada:")
-        self.__tela_venda.mostra_venda({"codigo": venda.codigo,
+        self.__tela_venda.mostra_venda([{"codigo": venda.codigo,
                                         "vendedor": venda.vendedor.nome,
                                         "cliente": venda.cliente.nome,
                                         "produto": venda.produto.nome,
                                         "quantidade": venda.quantidade,
                                         "data": venda.data.strftime("%d/%m/%Y"),
-                                        "valor": venda.valor})
+                                        "valor": venda.valor}])
         venda.vendedor.valor_vendido_total -= venda.valor
         venda.produto.quant_estoque += venda.quantidade
-        venda.cliente.remover_venda(venda)
-        self.__vendas.remove(venda.codigo)
-        self.__tela_venda.mostra_mensagem("Venda excluída com sucesso!")
-        self.__tela_venda.mostra_mensagem("Vendas restantes:")
+        #venda.cliente.remover_compra(venda.codigo)
+        self.__vendas_DAO.remove(venda)
+        self.__tela_venda.mostra_mensagem("Venda excluída com sucesso!\n\nClique em OK para ver as vendas restantes:")
         self.lista_venda()
       else:
         raise NaoEncontradoNaListaException("venda")
     except Exception as e:
-        self.__tela_venda.mostra_mensagem(f"Erro inesperado: {e}") 
+        self.__tela_venda.mostra_mensagem(e) 
 
   def retornar(self):
     self.__controlador_sistema.abre_tela()
