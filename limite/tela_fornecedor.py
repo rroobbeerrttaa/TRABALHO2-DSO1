@@ -80,7 +80,7 @@ class TelaFornecedor(MostraMensagem):
             [sg.Radio('Retornar', "RD1", key='0', font=("Georgia",20))],
             [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
         ]
-        self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
+        self.__window = sg.Window('Sistema de controle do estoque da A5', layout, icon='imagens/iconea5.ico')
 
     def pega_dados_fornecedor(self):
         while True:
@@ -94,7 +94,7 @@ class TelaFornecedor(MostraMensagem):
                 [sg.Text('Preço do fornecedor: ', font=("Georgia", 15), size=(20, 1)), sg.InputText('', key='preco')],
                 [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
             ]            
-            self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
+            self.__window = sg.Window('Sistema de controle do estoque da A5', layout, icon='imagens/iconea5.ico')
             button, values = self.open()
             if button in (None, 'Cancelar'):
                 self.close()  
@@ -127,7 +127,7 @@ class TelaFornecedor(MostraMensagem):
                 [sg.Text('Preço do fornecedor: ', font=("Georgia", 15), size=(20, 1)), sg.InputText('', key='preco')],
                 [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
             ]            
-            self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
+            self.__window = sg.Window('Sistema de controle do estoque da A5', layout, icon='imagens/iconea5.ico')
             button, values = self.open()
             if button in (None, 'Cancelar'):
                 self.close()  
@@ -164,7 +164,7 @@ class TelaFornecedor(MostraMensagem):
             else:
                 string_todos_fornecedores += "Empresa não apresenta endereços!" + '\n\n'
             string_todos_fornecedores += '\n'
-        sg.Popup('-------- LISTA DE FORNECEDORES ----------', string_todos_fornecedores)
+        sg.Popup('-------- LISTA DE FORNECEDORES ----------', string_todos_fornecedores, icon='imagens/iconea5.ico')
 
     def pega_dados_endereco(self):
         while True:
@@ -176,7 +176,7 @@ class TelaFornecedor(MostraMensagem):
                 [sg.Text('Número: ', font=("Georgia", 15), size=(15, 1)), sg.InputText('', key='numero')],
                 [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
             ]            
-            self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
+            self.__window = sg.Window('Sistema de controle do estoque da A5', layout, icon='imagens/iconea5.ico')
             button, values = self.open()
             if button in (None, 'Cancelar'):
                 self.close()  
@@ -202,7 +202,7 @@ class TelaFornecedor(MostraMensagem):
                 [sg.Text('CNPJ:', font=("Georgia", 15), size=(15, 1)), sg.InputText('', key='cnpj')],
                 [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
             ]
-            self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
+            self.__window = sg.Window('Sistema de controle do estoque da A5', layout, icon='imagens/iconea5.ico')
             button, values = self.open()
             if button in (None, 'Cancelar'):
                 self.close()  
@@ -222,7 +222,7 @@ class TelaFornecedor(MostraMensagem):
                 [sg.Text('CEP:', font=("Georgia", 15), size=(15, 1)), sg.InputText('', key='cep')],
                 [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
             ]
-            self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
+            self.__window = sg.Window('Sistema de controle do estoque da A5', layout, icon='imagens/iconea5.ico')
             button, values = self.open()
             if button in (None, 'Cancelar'):
                 self.close()  

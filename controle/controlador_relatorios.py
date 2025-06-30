@@ -13,33 +13,28 @@ class ControladorRelatorios():
             self.__tela_relatorios.mostra_mensagem("Não há produtos para gerar o relatório de rentabilidade.")
             return None
 
-        for produto in produtos:
-            existir = False
-            for fornecedor in self.__controlador_sistema.controlador_fornecedores.get_all_fornecedores():
-                if fornecedor.produto.codigo_produto == produto.codigo_produto:
-                    existir = True
-                    break
-            if existir:
-                preco_compra = 0
-                for fornecedor in self.__controlador_sistema.controlador_fornecedores.get_all_fornecedores():
-                    if fornecedor.produto.codigo_produto == produto.codigo_produto:
-                        preco_compra = fornecedor.preco
-                        break
-                if not preco_compra != 0:       # PREÇO DE COMPRA NUNCA VAI SER 0 PORQUE NÃO TRABALHAMOS COM DOAÇÕES
-                    self.__tela_relatorios.mostra_mensagem(f"ATENÇÃO: Não foi encontrado preço de compra para o produto {produto.nome}.")
-                    lucro_unidade = "Não é possível calcular o lucro"
-                    preco_compra = "Sem preço de compra"
-                else:
-                    lucro_unidade = produto.preco_venda - preco_compra
+        # Coleta todos os fornecedores uma vez para otimização
+        fornecedores = list(self.__controlador_sistema.controlador_fornecedores.get_all_fornecedores())
 
-                dados_rentabilidade = { 
-                    "nome": produto.nome,
-                    "codigo_produto": produto.codigo_produto,
-                    "preco_venda": produto.preco_venda,
-                    "preco_compra": preco_compra,
-                    "lucro_unidade": lucro_unidade
-                }
-                self.__tela_relatorios.mostra_rentabilidade_produto(dados_rentabilidade)
+        for produto in produtos:
+            preco_compra = None
+            for fornecedor in fornecedores:
+                if fornecedor.produto and fornecedor.produto.codigo_produto == produto.codigo_produto:
+                    preco_compra = fornecedor.preco
+                    break
+            
+            lucro_unidade = "N/A"
+            if preco_compra is not None:
+                lucro_unidade = produto.preco_venda - preco_compra
+            
+            dados_rentabilidade = { 
+                "nome": produto.nome,
+                "codigo_produto": produto.codigo_produto,
+                "preco_venda": produto.preco_venda,
+                "preco_compra": preco_compra if preco_compra is not None else "Sem preço de compra", #pesquisei para poder fazer
+                "lucro_unidade": lucro_unidade
+            }
+            self.__tela_relatorios.mostra_rentabilidade_produto(dados_rentabilidade)
 
     def analisar_produtos_mais_vendidos(self):
         vendas = self.__controlador_sistema.controlador_vendas.get_all_vendas()
@@ -47,8 +42,9 @@ class ControladorRelatorios():
             self.__tela_relatorios.mostra_mensagem("Não há vendas registradas para análise.")
             return None
 
-        todos_produtos_vendidos = {}        # DICIONARIO DE DICIONÁRIOS => CODIGO: DICIONÁRIO DO PRODUTO
-        for venda in vendas:
+        todos_produtos_vendidos = {}
+        lista_vendas = list(vendas)
+        for venda in lista_vendas[:4]: # Apenas os 3 produtos mais vendidos PRECISA SER LISTA
             codigo_produto = int(venda.produto.codigo_produto)
             if codigo_produto not in todos_produtos_vendidos:
                 todos_produtos_vendidos[codigo_produto] = {
@@ -74,20 +70,20 @@ class ControladorRelatorios():
             self.__tela_relatorios.mostra_mensagem("Não há vendedores cadastrados para gerar o relatório.")
             return None
         
-        lista_ordenada = sorted(vendedores, key=lambda x: x.valor_vendido_total, reverse=True)
+        lista_ordenada = list(sorted(vendedores, key=lambda x: x.valor_vendido_total, reverse=True))
         if not lista_ordenada:
             self.__tela_relatorios.mostra_mensagem("Nenhum vendedor possui vendas registradas.")
             return None
-        lugar = 0
-        for vendedor in lista_ordenada:
-            lugar += 1
+        
+        dados_vendedores_lista = []
+        for vendedor in lista_ordenada[:3]:  # Apenas 3 vendedores mais bem sucedidos
             dados_vendedor = {
-                "lugar": lugar,
                 "nome": vendedor.nome,
                 "cpf": vendedor.numero,
                 "valor_total_vendido": vendedor.valor_vendido_total
             }
-            self.__tela_relatorios.mostra_vendas_por_vendedor(dados_vendedor)
+            dados_vendedores_lista.append(dados_vendedor)
+        self.__tela_relatorios.mostra_vendas_por_vendedor(dados_vendedores_lista)
 
     def compra_cliente(self):
         clientes = self.__controlador_sistema.controlador_pessoas.get_all_clientes()  # Acessa a lista de clientes

@@ -12,24 +12,23 @@ No controlador, sempre converta get_all() para lista antes de usar.
 Nunca use len(self.__clientes_DAO), sempre len(list(self.__clientes_DAO.get_all())).
 No controlador de vendas, ajuste o uso do DAO para listar e remover vendas.
 
-em tela_pessoa: fiz mostra vendedor do jeito da R e mostra cliente do meu jeito (meu jeito ficou mais bonito)
+em tela_pessoa: fiz mostra vendedor do jeito da R e mostra cliente do meu jeito (decidi manter meu jeito)
 
-melhorar inclusão de pessoas
+melhorar inclusão de pessoas ok
 
-tem um erro quando n coloca nenhum dado na pessoa nova q n está sendo tratado ainda
-
-
-
-está dando para instanciar sem nome: recried? pesquisar
+tem um erro quando n coloca nenhum dado na pessoa nova q n está sendo tratado ainda ok
 
 relatorio e vendas:
 
 relatório:
-    cada um com uma janela, precisa fazer igual listar clientes
-    l 69 na análise de produtos mais vendidos, o 1º lugar está indo fora da janela
+    cada um com uma janela, precisa fazer igual listar clientes ok
+    l 69 na análise de produtos mais vendidos, o 1º lugar está indo fora da janela ok
 
 vendas:
     op listar vendas não está mostrando nada
 
 
-TENTAR DEIXAR INFOS DOS CLIENTES NA TELA SEM FECHAR
+TENTAR DEIXAR INFOS DOS CLIENTES NA TELA SEM FECHAR?
+DESCOBRIR COMO COLOCAR SCROLL NA TELA ok
+ANÁLISE VENDEDORES COM MAIS VENDAS ESTÁ COM UM VENDEDOR POR JANELA ok
+ESSAS ANÁLISES NÃO DEIXAM O TOP 3. ESTÃO MOSTRANDO TODOS ok

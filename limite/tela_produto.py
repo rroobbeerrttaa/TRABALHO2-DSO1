@@ -55,7 +55,7 @@ class TelaProduto(MostraMensagem):
             [sg.Radio('Retornar', "RD1", key='0', font=("Georgia",20))],
             [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
         ]
-        self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
+        self.__window = sg.Window('Sistema de controle do estoque da A5', layout, icon='imagens/iconea5.ico')
 
     def pega_dados_produto(self):
         while True:
@@ -68,7 +68,7 @@ class TelaProduto(MostraMensagem):
                 [sg.Text('Quantidade comprada: ', font=("Georgia", 15), size=(22, 1)), sg.InputText('', key='quant_estoque')],
                 [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
             ]
-            self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
+            self.__window = sg.Window('Sistema de controle do estoque da A5', layout, icon='imagens/iconea5.ico')
             button, values = self.open()
             if button in (None, 'Cancelar'):
                 self.close()  
@@ -96,7 +96,7 @@ class TelaProduto(MostraMensagem):
                 [sg.Text('Preço venda / Quantidade a mais no estoque: ', font=("Georgia", 15), size=(34, 1)), sg.InputText('', key='valor')],
                 [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
             ]            
-            self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
+            self.__window = sg.Window('Sistema de controle do estoque da A5', layout, icon='imagens/iconea5.ico')
             button, values = self.open()
             if button in (None, 'Cancelar'):
                 self.close()
@@ -114,7 +114,7 @@ class TelaProduto(MostraMensagem):
             string_todos_produtos += "CODIGO DO PRODUTO: " + str(dado["codigo_produto"]) + '\n'
             string_todos_produtos += "PRECO DO PRODUTO: R$" + str(dado["preco_venda"]) + '\n'
             string_todos_produtos += "QUANTIDADE NO ESTOQUE DO PRODUTO: " + str(dado["quant_estoque"]) + '\n\n'
-        sg.Popup("", string_todos_produtos)
+        sg.Popup("", string_todos_produtos, icon='imagens/iconea5.ico')
 
     def seleciona_produto(self):
         while True:
@@ -125,7 +125,7 @@ class TelaProduto(MostraMensagem):
                 [sg.Text('Código do produto:', font=("Georgia", 15), size=(20, 1)), sg.InputText('', key='codigo')],
                 [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
             ]
-            self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
+            self.__window = sg.Window('Sistema de controle do estoque da A5', layout, icon='imagens/iconea5.ico')
             button, values = self.open()
             if button in (None, 'Cancelar'):
                 self.close()  

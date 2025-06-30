@@ -6,5 +6,5 @@ class MostraMensagem():
         pass
 
     def mostra_mensagem(self, msg):
-        sg.popup("", msg)
+        sg.popup("", msg, icon='imagens/iconea5.ico')
         print(msg)

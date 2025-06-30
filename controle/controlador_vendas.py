@@ -22,6 +22,8 @@ class ControladorVendas():
       self.__controlador_sistema.controlador_pessoas.lista_vendedores()
       self.__controlador_sistema.controlador_produtos.lista_produtos()
       dados_venda = self.__tela_venda.pega_dados_venda()
+      if dados_venda is None:
+        return None
       try:
           quantidade = int(dados_venda["quantidade"])
           codigo_produto = int(dados_venda["codigo_produto"])
@@ -43,25 +45,28 @@ class ControladorVendas():
 
           nova_venda = Venda(quantidade = quantidade, produto = produto,
                              data = dados_venda["data"], codigo = codigo_venda,
-                             cliente = cliente, vendedor = vendedor)    # VALOR DA VENDA É CALCULADO NO CONSTRUTOR DA CLASSE
-
-          #self.__vendas.append(nova_venda)
-          self.__vendas_DAO.add(nova_venda)
-          produto.quant_estoque -= quantidade
+                             cliente = cliente, vendedor = vendedor)    # VALOR DA VENDA É CALCULADO NO CONSTRUTOR DA CLASS
+          
           vendedor.valor_vendido_total += nova_venda.valor
-          cliente.adicionar_compra(nova_venda)
-          # Não sei se mantenho essa função porque o atributo compras em cliente é uma lista e não um dicionário
+          self.__controlador_sistema.controlador_pessoas.vendedores_dao.update(vendedor)
 
+          produto.quant_estoque -= quantidade
+          self.__controlador_sistema.controlador_produtos.atualizar_produto(produto)
+
+          cliente.adicionar_compra(nova_venda)
+          self.__controlador_sistema.controlador_pessoas.clientes_dao.update(cliente)
+      
+          self.__vendas_DAO.add(nova_venda)
           self.__tela_venda.mostra_mensagem("Venda cadastrada com sucesso!")
-          self.__tela_venda.mostra_venda({"codigo": nova_venda.codigo,
+          self.__tela_venda.mostra_venda([{"codigo": nova_venda.codigo,
                                           "vendedor": nova_venda.vendedor.nome,
                                           "cliente": nova_venda.cliente.nome,
                                           "produto": nova_venda.produto.nome,
                                           "quantidade": nova_venda.quantidade,
                                           "data": nova_venda.data.strftime("%d/%m/%Y"),
-                                          "valor": nova_venda.valor})
+                                          "valor": nova_venda.valor}])
       except Exception as e:
-          self.__tela_venda.mostra_mensagem(f'Erro inesperado: {e}')
+          self.__tela_venda.mostra_mensagem(e)
 
   def lista_venda(self):
     vendas = list(self.__vendas_DAO.get_all()) #transformar get all em lista
@@ -91,7 +96,6 @@ class ControladorVendas():
     venda = self.pega_venda_por_codigo(codigo_venda)
     try:
       if venda is not None:
-        self.__tela_venda.mostra_mensagem("Dados da venda a ser deletada:")
         self.__tela_venda.mostra_venda([{"codigo": venda.codigo,
                                         "vendedor": venda.vendedor.nome,
                                         "cliente": venda.cliente.nome,
@@ -99,10 +103,20 @@ class ControladorVendas():
                                         "quantidade": venda.quantidade,
                                         "data": venda.data.strftime("%d/%m/%Y"),
                                         "valor": venda.valor}])
-        venda.vendedor.valor_vendido_total -= venda.valor
-        venda.produto.quant_estoque += venda.quantidade
-        #venda.cliente.remover_compra(venda.codigo)
-        self.__vendas_DAO.remove(venda)
+        
+        vendedor = venda.vendedor
+        vendedor.valor_vendido_total -= venda.valor
+        self.__controlador_sistema.controlador_pessoas.vendedores_dao.update(vendedor)
+
+        produto = venda.produto
+        produto.quant_estoque += venda.quantidade
+        self.__controlador_sistema.controlador_produtos.atualizar_produto(produto)
+
+        cliente = venda.cliente
+        cliente.remover_compra(venda.codigo)
+        self.__controlador_sistema.controlador_pessoas.clientes_dao.update(cliente)
+        
+        self.__vendas_DAO.remove(venda.codigo)
         self.__tela_venda.mostra_mensagem("Venda excluída com sucesso!\n\nClique em OK para ver as vendas restantes:")
         self.lista_venda()
       else:

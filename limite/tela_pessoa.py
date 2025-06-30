@@ -47,7 +47,7 @@ class TelaPessoa(MostraMensagem):
             opcao = 5
         if values['6']:
             opcao = 6
-        if values['0'] or button in (None, 'Cancelar'):
+        if button in (None, 'Retornar'):
             opcao = 0
         self.close()
         return opcao
@@ -63,10 +63,9 @@ class TelaPessoa(MostraMensagem):
             [sg.Radio('Excluir Cliente', "RD1", key='4', font=("Georgia",20))],
             [sg.Radio('Listar Vendedores', "RD1", key='5', font=("Georgia",20))],
             [sg.Radio('Excluir Vendedor', "RD1", key='6', font=("Georgia",20))],
-            [sg.Radio('Retornar', "RD1", key='0', font=("Georgia",20))],
-            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+            [sg.Button('Confirmar'), sg.Cancel('Retornar')]
         ]
-        self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
+        self.__window = sg.Window('Sistema de controle do estoque da A5', layout, icon='imagens/iconea5.ico')
 
     def pega_dados_pessoa(self):
         while True:
@@ -78,7 +77,7 @@ class TelaPessoa(MostraMensagem):
                 [sg.Text('Celular (somente números):', font=("Georgia", 20), size=(22,1)), sg.InputText('',key='celular')],
                 [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
             ]
-            self.__window = sg.Window('Dados da Pessoa').Layout(layout)
+            self.__window = sg.Window('Dados da Pessoa', layout, icon='imagens/iconea5.ico')
 
             button, values = self.open()
             if button in (None, 'Cancelar'):
@@ -99,35 +98,43 @@ class TelaPessoa(MostraMensagem):
             
 
     def mostra_cliente(self, dados_cliente):        
-        layout = [
-            [sg.Text("-------- CLIENTES --------", font=("Georgia", 20))]
-        ]
+        column_layout = []
         for cliente in dados_cliente:
-            layout += [
+            column_layout += [
                 [sg.Text(f"NOME: {cliente['nome']}")],
                 [sg.Text(f"CPF: {cliente['cpf']}")],
                 [sg.Text(f"CELULAR: {cliente['celular']}")],
                 [sg.Text("-" * 30)]
             ]
-        layout += [[sg.Button("OK")]]
-        window = sg.Window("Lista de Clientes", layout)
+
+        layout = [
+            [sg.Text("-------- CLIENTES --------", font=("Georgia", 20))],
+            [sg.Column(column_layout, size=(400, 400), scrollable=True, vertical_scroll_only=True)], # Coluna com scroll
+            [sg.Button("OK")]
+        ]
+
+        window = sg.Window("Lista de Clientes", layout, icon='imagens/iconea5.ico')
         window.read()
         window.close()
 
     def mostra_vendedor(self, dados_vendedor):
-        layout = [
-            [sg.Text("-------- VENDEDORES --------", font=("Georgia", 20))]
-        ]
+        column_layout = []
         for vendedor in dados_vendedor:
-            layout += [
+            column_layout += [
                 [sg.Text(f"NOME: {vendedor['nome']}")],
                 [sg.Text(f"CPF: {vendedor['cpf']}")],
                 [sg.Text(f"CELULAR: {vendedor['celular']}")],
                 [sg.Text(f"VALOR TOTAL VENDIDO: R${vendedor['valor_vendido_total']:.2f}")],
                 [sg.Text("-" * 30)]
             ]
-        layout += [[sg.Button("OK")]]
-        window = sg.Window("Lista de Clientes", layout)
+
+        layout = [
+            [sg.Text("-------- VENDEDORES --------", font=("Georgia", 20))],
+            [sg.Column(column_layout, size=(400, 400), scrollable=True, vertical_scroll_only=True)], # Coluna com scroll
+            [sg.Button("OK")]
+        ]
+        
+        window = sg.Window("Lista de Clientes", layout, icon='imagens/iconea5.ico')
         window.read()
         window.close()
 
@@ -140,7 +147,7 @@ class TelaPessoa(MostraMensagem):
                 [sg.Text('CPF da pessoa:', size=(20, 1)), sg.InputText('11 dígitos', key='codigo')],
                 [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
             ]
-            self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
+            self.__window = sg.Window('Sistema de controle do estoque da A5', layout, icon='imagens/iconea5.ico')
             
             button, values = self.open()
             if button in (None, 'Cancelar'):

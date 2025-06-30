@@ -162,3 +162,11 @@ class ControladorPessoas():
 
     def get_all_vendedores(self):
         return self.__vendedores_DAO.get_all()
+    
+    @property
+    def clientes_dao(self):
+        return self.__clientes_DAO
+    
+    @property
+    def vendedores_dao(self):
+        return self.__vendedores_DAO

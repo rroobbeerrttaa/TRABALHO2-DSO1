@@ -73,7 +73,7 @@ class TelaPedido(MostraMensagem):
         [sg.Radio('Retornar', "RD1", key='0', font=("Georgia",20))],
         [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
         ]
-        self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
+        self.__window = sg.Window('Sistema de controle do estoque da A5', layout, icon='imagens/iconea5.ico')
 
     def pega_dados_pedido(self):
         while True:
@@ -89,7 +89,7 @@ class TelaPedido(MostraMensagem):
                 [sg.Text('Prazo do pedido (quantidade de dias): ', font=("Georgia",15), size=(33, 1)), sg.InputText('', key='prazo_entrega')],
                 [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
             ]            
-            self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
+            self.__window = sg.Window('Sistema de controle do estoque da A5', layout, icon='imagens/iconea5.ico')
             button, values = self.open()
             if button in (None, 'Cancelar'):
                 self.close()  
@@ -131,7 +131,7 @@ class TelaPedido(MostraMensagem):
                 [sg.Text('Prazo do pedido (quantidade de dias): ', font=("Georgia",15), size=(33, 1)), sg.InputText('', key='prazo_entrega')],
                 [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
             ]            
-            self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
+            self.__window = sg.Window('Sistema de controle do estoque da A5', layout, icon='imagens/iconea5.ico')
             button, values = self.open()
             if button in (None, 'Cancelar'):
                 self.close()  
@@ -179,7 +179,7 @@ class TelaPedido(MostraMensagem):
                 [sg.Text('Código:', font=("Georgia", 25), size=(7, 1)), sg.InputText('', key='codigo')],
                 [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
             ]
-            self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
+            self.__window = sg.Window('Sistema de controle do estoque da A5', layout, icon='imagens/iconea5.ico')
             button, values = self.open()
             if button in (None, 'Cancelar'):
                 self.close()  

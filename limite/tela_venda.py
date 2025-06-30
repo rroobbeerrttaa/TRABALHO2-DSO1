@@ -58,7 +58,7 @@ class TelaVenda(MostraMensagem):
             opcao = 2
         if values['3']:
             opcao = 3
-        if values['0'] or button in (None, 'Cancelar'):
+        if button in (None, 'Retornar'):
             opcao = 0
         self.close()
         return opcao
@@ -71,10 +71,9 @@ class TelaVenda(MostraMensagem):
             [sg.Radio('Fazer Venda', "RD1", key='1', font=("Georgia",20))],
             [sg.Radio('Listar Vendas', "RD1", key='2', font=("Georgia",20))],
             [sg.Radio('Excluir Venda', "RD1", key='3', font=("Georgia",20))],
-            [sg.Radio('Retornar', "RD1", key='0', font=("Georgia",20))],
-            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+            [sg.Button('Confirmar'), sg.Cancel('Retornar')]
         ]
-        self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
+        self.__window = sg.Window('Sistema de controle do estoque da A5', layout, icon='imagens/iconea5.ico')
 
     def pega_dados_venda(self):
        while True:
@@ -86,10 +85,10 @@ class TelaVenda(MostraMensagem):
                 [sg.Text('Código do produto: ', font=("Georgia", 15), size=(20, 1)), sg.InputText('', key='codigo_produto')],
                 [sg.Text('Quantidade vendida: ', font=("Georgia", 15), size=(20, 1)), sg.InputText('', key='quantidade')],
                 [sg.Text('Código da venda: ', font=("Georgia", 15), size=(20, 1)), sg.InputText('', key='codigo')],
-                [sg.Text('Data da venda (DD/MM/AAAA): ', font=("Georgia", 15), size=(20, 1)), sg.InputText('', key='data')],
+                [sg.Text('Data da venda (DD/MM/AAAA): ', font=("Georgia", 12), size=(27, 1)), sg.InputText('', key='data')],
                 [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
             ]            
-            self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
+            self.__window = sg.Window('Sistema de controle do estoque da A5', layout, icon='imagens/iconea5.ico')
             button, values = self.open()
             if button in (None, 'Cancelar'):
                 self.close()  
@@ -113,21 +112,22 @@ class TelaVenda(MostraMensagem):
             self.close()
 
     def mostra_venda(self, dados_venda):
-        layout = [
-            [sg.Text('-------- DADOS DA VENDA ----------', font=("Georgia", 15))]]
+        column_layout = []
         for venda in dados_venda:
-            layout += [
-                [sg.Text(f"CÓDIGO DA VENDA: {venda['codigo']}", font=("Georgia", 10))],
-                [sg.Text(f"DATA: {venda['data']}", font=("Georgia", 10))],
-                [sg.Text(f"VENDEDOR: {venda['vendedor']}", font=("Georgia", 10))],
-                [sg.Text(f"CLIENTE: {venda['cliente']}", font=("Georgia", 10))],
-                [sg.Text(f"NOME DO PRODUTO: {venda['produto']}", font=("Georgia", 10))],
-                [sg.Text(f"QUANTIDADE: {venda['quantidade']}", font=("Georgia", 10))],
-                [sg.Text(f"VALOR TOTAL DA VENDA: R${float(venda['valor']):.2f}", font=("Georgia", 10))],
+            column_layout += [
+                [sg.Text(f"CÓDIGO DA VENDA: {venda['codigo']}", font=("Georgia", 15))],
+                [sg.Text(f"DATA: {venda['data']}", font=("Georgia", 15))],
+                [sg.Text(f"VENDEDOR: {venda['vendedor']}", font=("Georgia", 15))],
+                [sg.Text(f"CLIENTE: {venda['cliente']}", font=("Georgia", 15))],
+                [sg.Text(f"NOME DO PRODUTO: {venda['produto']}", font=("Georgia", 15))],
+                [sg.Text(f"QUANTIDADE: {venda['quantidade']}", font=("Georgia", 15))],
+                [sg.Text(f"VALOR TOTAL DA VENDA: R${float(venda['valor']):.2f}", font=("Georgia", 15))],
                 [sg.Text('-' * 30, font=("Georgia", 10))]
             ]
-        layout += [[sg.Button('OK')]]
-        window = sg.Window('Detalhes da Venda', layout)
+        layout = [[sg.Text('-------- DADOS DA VENDA ----------', font=("Georgia", 25))],
+                 [sg.Column(column_layout, size=(400, 400), scrollable=True, vertical_scroll_only=True)],  # Coluna com scroll
+                 [sg.Button('OK')]]
+        window = sg.Window('Detalhes da Venda', layout, icon='imagens/iconea5.ico')
         window.read()
         window.close()
 
@@ -140,7 +140,7 @@ class TelaVenda(MostraMensagem):
                 [sg.Text('Código:', font=("Georgia", 15), size=(15, 1)), sg.InputText('', key='codigo')],
                 [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
             ]
-            self.__window = sg.Window('Sistema de controle do estoque da A5').Layout(layout)
+            self.__window = sg.Window('Sistema de controle do estoque da A5', layout, icon='imagens/iconea5.ico')
             button, values = self.open()
             if button in (None, 'Cancelar'):
                 self.close()  
