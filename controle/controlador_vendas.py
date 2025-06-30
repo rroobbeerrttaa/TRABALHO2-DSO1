@@ -4,6 +4,7 @@ from excessoes.nao_encontrado_na_lista_exception import NaoEncontradoNaListaExce
 from excessoes.encontrado_na_lista_exception import EncontradoNaListaException
 from DAOs.venda_dao import VendaDAO
 
+
 class ControladorVendas():
 
   def __init__(self, controlador_sistema):
@@ -74,7 +75,7 @@ class ControladorVendas():
       self.__tela_venda.mostra_mensagem("Sem vendas cadastradas.")
       return None
     dados_vendas = []
-    for venda in vendas:  #venda é um objeto Venda
+    for venda in vendas:
       dado = {"codigo": venda.codigo,
               "vendedor": venda.vendedor.nome,
               "cliente": venda.cliente.nome,

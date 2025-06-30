@@ -125,7 +125,7 @@ class TelaVenda(MostraMensagem):
                 [sg.Text('-' * 30, font=("Georgia", 10))]
             ]
         layout = [[sg.Text('-------- DADOS DA VENDA ----------', font=("Georgia", 25))],
-                 [sg.Column(column_layout, size=(400, 400), scrollable=True, vertical_scroll_only=True)],  # Coluna com scroll
+                 [sg.Column(column_layout, size=(500, 500), scrollable=True, vertical_scroll_only=True)],  # Coluna com scroll
                  [sg.Button('OK')]]
         window = sg.Window('Detalhes da Venda', layout, icon='imagens/iconea5.ico')
         window.read()

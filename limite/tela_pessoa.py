@@ -1,6 +1,6 @@
-#from teste.teste_numero_opcoes import TesteNumeroOpcoes
 from mostra.mostra_mensagem import MostraMensagem
 import PySimpleGUI as sg
+
 
 class TelaPessoa(MostraMensagem):
 
@@ -93,7 +93,6 @@ class TelaPessoa(MostraMensagem):
                     self.close()
                     return {"nome": nome, "cpf": cpf, "celular": celular}
                 else:
-                    #self.mostra_mensagem("Por favor, preencha todos os campos corretamente.")
                     self.close()
             
 
